@@ -417,6 +417,16 @@ main {
   flex: 0 0 auto;
 }
 
+.campaign-product-slide .campaign-asset,
+.campaign-product-slide .campaign-asset.asset-loaded {
+  background: var(--white);
+}
+
+.campaign-product-slide .campaign-asset > img {
+  object-fit: contain;
+  object-position: center;
+}
+
 .campaign-slide.is-entering .campaign-asset {
   animation: campaign-in .45s ease both;
 }
