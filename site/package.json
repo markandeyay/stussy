@@ -1,0 +1,21 @@
+{
+  "name": "stussy-chapel-hill",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.14",
+    "roughjs": "^4.6.6"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.0"
+  }
+}

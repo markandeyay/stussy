@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STÜSSY CHAPEL HILL CHAPTER</title>
+  <meta name="description" content="Stüssy Chapel Hill Chapter. The Southern Part of Heaven. International Stüssy Tribe meets Tar Heel Nation. Everything is sold out.">
+
+  <link rel="preload" href="/fonts/futura-cond-n8.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/futura-cond-i8.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/futura-cond-n7.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- SVG DEFS: gooey filter for transition lines (ported from ZOCCON #top-lines-gooey) -->
+  <svg class="svg-defs" width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="top-lines-gooey">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 19 -9" result="goo"></feColorMatrix>
+        <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- LOADER (ZOCCON p-top-loading: black, catch, rotateY flip letters, clip-path exit) -->
+  <section class="p-top-loading" id="loader">
+    <div class="p-top-loading__bg"></div>
+    <div class="p-top-loading__inner">
+      <div class="p-top-loading__catch" id="loader-catch">
+        <img class="catch-logo" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506">
+        <img class="catch-ram" src="/assets/doodles/ram.png" alt="" width="120" height="120">
+        <span class="loading" id="loading-word"><i>N</i><i>O</i><i>W</i><i>&nbsp;</i><i>L</i><i>O</i><i>A</i><i>D</i><i>I</i><i>N</i><i>G</i></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE TRANSITION (ZOCCON p-transition: 24 gooey rects, random widths/eases/color modes) -->
+  <div class="p-transition" id="transition" data-color-mode="1">
+    <svg class="lines" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2056 1105" preserveAspectRatio="none">
+      <g id="transition-g"></g>
+    </svg>
+  </div>
+
+  <!-- TYPO BACK LAYER (ZOCCON p-typo-back: canvas streams + crossing charas) -->
+  <div class="p-typo-back" id="typo-back" aria-hidden="true">
+    <canvas id="typo-back-canvas"></canvas>
+    <div class="chara chara_8ball"><img src="/assets/doodles/8ball.png" alt="" width="520" height="520"></div>
+    <div class="chara chara_crown"><img src="/assets/doodles/crown.png" alt="" width="520" height="520"></div>
+    <div class="chara chara_dice"><img src="/assets/doodles/dice.png" alt="" width="520" height="520"></div>
+    <div class="chara chara_ram"><img src="/assets/doodles/ram.png" alt="" width="520" height="520"></div>
+  </div>
+
+  <!-- BACKGROUND GRID HAIRLINES -->
+  <div class="bg-lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <!-- NOISE OVERLAY -->
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="p-header" id="header">
+    <a class="p-header__logo" href="#top" data-nav-link>
+      <img class="logo-mark" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506">
+      <span class="logo-chapter">CHAPEL HILL<br>CHAPTER</span>
+    </a>
+    <nav class="p-header__nav">
+      <a href="#story" data-nav-link data-underline><b>01</b>CHAPTER</a>
+      <a href="#lookbook" data-nav-link data-underline><b>02</b>LOOKBOOK</a>
+      <a href="#drop" data-nav-link data-underline><b>03</b>THE DROP</a>
+      <a href="#tribe" data-nav-link data-underline><b>04</b>TRIBE</a>
+      <a href="#store" data-nav-link data-underline><b>05</b>STORE</a>
+    </nav>
+    <div class="p-header__meta">
+      <span class="header-coord u-hide-sp">35.9132°N 79.0558°W</span>
+      <span class="header-badge">SOLD OUT</span>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="p-hero" id="hero">
+      <div class="p-hero__eyebrow" data-hero-fade>
+        <span>EST. 2026</span><span class="dot">★</span>
+        <span>FRANKLIN ST, NC</span><span class="dot">★</span>
+        <span>CHAPTER EXCLUSIVE</span>
+      </div>
+
+      <h1 class="p-hero__title" aria-label="Trapwhip Chapel Hill Chapter">
+        <img class="hero-logo" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506" data-hero>
+        <span class="hero-tag" data-hero><b>CHAPTER</b><span class="dot">★</span><span class="ja">チャペルヒル店</span></span>
+      </h1>
+
+      <div class="p-hero__mascot" data-hero>
+        <div class="c-gyre" data-gyre>
+          <div class="c-gyre__inner">
+            <img class="c-gyre__img" src="/assets/mascot/ramsey-dither.png" alt="RAMSEY — the Chapel Hill Chapter ram mascot" width="1048" height="1029" fetchpriority="high">
+          </div>
+          <div class="c-gyre__arrow"><div></div></div>
+        </div>
+      </div>
+
+      <div class="p-hero__side u-hide-sp" aria-hidden="true">
+        <span>INTERNATIONAL <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> TRIBE — EST. 2026 —</span>
+      </div>
+
+      <div class="p-hero__foot" data-hero-fade>
+        <span class="hero-scroll">SCROLL ↓</span>
+        <span class="hero-meta u-hide-sp">FW26 “SOUTHERN PART OF HEAVEN” ★ STOCK 0/4 ★ RAFFLE CLOSED</span>
+      </div>
+      <div class="p-hero__grad" aria-hidden="true"></div>
+    </section>
+
+    <!-- MARQUEE 1 -->
+    <div class="c-marquee" data-type="carolina" data-marquee aria-hidden="true">
+      <div class="c-marquee__inner">
+        <div class="marquee-set">
+          <div class="marquee-single">
+            <p class="bold" data-underline>CHAPEL HILL CHAPTER</p><span class="arrow"><div></div></span>
+            <p class="normal">EST. 2026</p><span class="arrow"><div></div></span>
+            <p class="bold" data-underline>FRANKLIN ST</p><span class="arrow"><div></div></span>
+            <p class="normal">TAR HEEL NATION</p><span class="arrow"><div></div></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER STORY -->
+    <section class="p-story p-section" id="story">
+      <div class="sec-head" data-inview-head>
+        <h2 class="sec-head__title"><span class="idx">SEC.01</span><span class="tt" data-split-letters>CHAPTER<i>STORY</i></span></h2>
+        <p class="sec-head__meta">章 — CHAPTER<br>35.9132°N, 79.0558°W</p>
+      </div>
+      <div class="p-story__pin" id="story-pin">
+        <div class="story-bgword" aria-hidden="true">HEAVEN</div>
+        <div class="p-story__grid">
+          <div class="p-story__copy">
+            <p class="lede">
+              <span class="lnw"><span class="ln" data-ln>A NEW CHAPTER IN THE</span></span><br>
+              <span class="lnw"><span class="ln ln--mark" data-ln>SOUTHERN PART OF HEAVEN.</span></span>
+            </p>
+            <p class="body" data-body="l">International <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> Tribe meets Tar Heel Nation. Surf-shop soul, Carolina blue blood. The 8-ball reads the argyle and the argyle reads the 8-ball. This is not a store — it's a chapter, written in marker on the bricks of Franklin Street.</p>
+            <p class="body" data-body="r">One floor above the record shop. Wood fixtures, mirrored walls, a tiki totem wearing a mortarboard. Exclusive chapter product that does not exist and is already gone.</p>
+            <dl class="fact-table">
+              <div data-fact="l"><dt>ADDRESS</dt><dd>178 E FRANKLIN ST, CHAPEL HILL, NC 27516</dd></div>
+              <div data-fact="r"><dt>FLOOR</dt><dd>2F — ABOVE THE RECORD SHOP</dd></div>
+              <div data-fact="l"><dt>OPENED</dt><dd>FALL 2026</dd></div>
+              <div data-fact="r"><dt>FIXTURES</dt><dd>WOOD / MIRRORS / 1 TIKI TOTEM</dd></div>
+            </dl>
+          </div>
+          <div class="p-story__img" data-story-img>
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner">
+                <img class="c-gyre__img -clip" src="/assets/lookbook/00_porch.jpg" alt="Chapter crew on the porch of 178 E Franklin" width="1400" height="933">
+              </div>
+              <div class="c-gyre__arrow"><div></div></div>
+              <p>CHAPTER CREW — PORCH OF 178 E FRANKLIN ★ FW26</p>
+            </div>
+            <div class="rotating-badge" aria-hidden="true" data-badge>
+              <svg viewBox="0 0 200 200">
+                <defs><path id="badge-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path></defs>
+                <text><textPath href="#badge-circle">STÜSSY CHAPEL HILL CHAPTER ★ EST. 2026 ★ SOUTHERN PART OF HEAVEN ★ </textPath></text>
+              </svg>
+              <img src="/assets/doodles/8ball.png" alt="" width="56" height="56">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOOKBOOK (pinned horizontal scroll) -->
+    <section class="p-lookbook p-section" id="lookbook">
+      <div class="sec-head" data-inview-head>
+        <h2 class="sec-head__title"><span class="idx">SEC.02</span><span class="tt" data-split-letters>LOOK<i>BOOK</i></span></h2>
+        <p class="sec-head__meta">FW26 “SOUTHERN PART OF HEAVEN”<br>SHOT ON 35MM — KODAK 400</p>
+      </div>
+      <div class="p-lookbook__pin" id="lookbook-pin">
+        <div class="p-lookbook__track" id="lookbook-track">
+          <figure class="lb" data-lb-parallax="-8">
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/01_oldwell.jpg" alt="Argyle mohair cardigan at the Old Well"></div>
+              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            </div>
+            <figcaption><b>01</b>OLD WELL, DAWN<i>35.9120°N</i></figcaption>
+          </figure>
+          <figure class="lb" data-lb-parallax="10">
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/02_belltower.jpg" alt="Nylon track set crossing the Bell Tower lawn"></div>
+              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            </div>
+            <figcaption><b>02</b>BELL TOWER, MIDDAY<i>35.9147°N</i></figcaption>
+          </figure>
+          <figure class="lb" data-lb-parallax="-6">
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/03_recordshop.jpg" alt="Flannel over hoodie, digging crates"></div>
+              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            </div>
+            <figcaption><b>03</b>THE RECORD SHOP<i>178 E FRANKLIN</i></figcaption>
+          </figure>
+          <figure class="lb" data-lb-parallax="12">
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/04_court.jpg" alt="Mesh jersey jumpshot at dusk"></div>
+              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            </div>
+            <figcaption><b>04</b>THE COURT, DUSK<i>WOOLLEN GYM</i></figcaption>
+          </figure>
+          <figure class="lb" data-lb-parallax="-10">
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/05_rooftop.jpg" alt="8-ball knit on the dorm roof"></div>
+              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            </div>
+            <figcaption><b>05</b>DORM ROOF, GOLDEN<i>SOUTH CAMPUS</i></figcaption>
+          </figure>
+          <figure class="lb" data-lb-parallax="8">
+            <div class="c-gyre" data-gyre>
+              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/06_franklin_night.jpg" alt="Overcoat and blue scarf, Franklin at night"></div>
+              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            </div>
+            <figcaption><b>06</b>FRANKLIN ST, NIGHT<i>35.9130°N</i></figcaption>
+          </figure>
+          <div class="lb-end">
+            <p class="lb-end__script">fin.</p>
+            <p class="lb-end__txt">FW26<br>SOUTHERN PART<br>OF HEAVEN</p>
+          </div>
+        </div>
+        <div class="p-lookbook__progress" aria-hidden="true">
+          <span id="lb-count">01</span><em>/</em><span>06</span>
+          <i class="lb-bar"><i id="lb-bar-fill"></i></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE 2 -->
+    <div class="c-marquee" data-type="navy" data-marquee aria-hidden="true">
+      <div class="c-marquee__inner">
+        <div class="marquee-set">
+          <div class="marquee-single">
+            <p class="bold" data-underline>THE DROP</p><span class="arrow"><div></div></span>
+            <p class="normal">ALL GONE</p><span class="arrow"><div></div></span>
+            <p class="bold" data-underline>SOLD OUT</p><span class="arrow"><div></div></span>
+            <p class="normal">FOREVER</p><span class="arrow"><div></div></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE DROP -->
+    <section class="p-drop p-section" id="drop">
+      <div class="sec-head" data-inview-head>
+        <h2 class="sec-head__title"><span class="idx">SEC.03</span><span class="tt" data-split-letters>THE<i>DROP</i></span></h2>
+        <p class="sec-head__meta">CHAPTER EXCLUSIVES<br>GONE BEFORE YOU GOT HERE</p>
+      </div>
+      <div class="p-drop__grid">
+        <article class="product" data-product-card>
+          <div class="c-gyre" data-gyre>
+            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/tee.jpg" alt="Chapel Hill Chapter Tee, black with white handstyle print"></div>
+            <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            <span class="product__sticker">SOLD<br>OUT</span>
+          </div>
+          <div class="product__info">
+            <h3><b>03-01</b>CHAPEL HILL CHAPTER TEE</h3>
+            <p class="spec">BLACK ★ HEAVYWEIGHT BOXY ★ HANDSTYLE CHEST PRINT</p>
+            <p class="price"><s>$48</s><em>GONE</em></p>
+          </div>
+        </article>
+        <article class="product" data-product-card>
+          <div class="c-gyre" data-gyre>
+            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/knit.jpg" alt="8-Ball Carolina Knit sweater"></div>
+            <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            <span class="product__sticker">SOLD<br>OUT</span>
+          </div>
+          <div class="product__info">
+            <h3><b>03-02</b>8-BALL CAROLINA KNIT</h3>
+            <p class="spec">CAROLINA ★ CHUNKY JACQUARD ★ MOHAIR BLEND</p>
+            <p class="price"><s>$168</s><em>GONE</em></p>
+          </div>
+        </article>
+        <article class="product" data-product-card>
+          <div class="c-gyre" data-gyre>
+            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/hat.jpg" alt="Franklin St bucket hat, navy with crown doodle"></div>
+            <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            <span class="product__sticker">SOLD<br>OUT</span>
+          </div>
+          <div class="product__info">
+            <h3><b>03-03</b>FRANKLIN ST BUCKET HAT</h3>
+            <p class="spec">NAVY ★ CROWN DOODLE EMBROIDERY</p>
+            <p class="price"><s>$62</s><em>GONE</em></p>
+          </div>
+        </article>
+        <article class="product" data-product-card>
+          <div class="c-gyre" data-gyre>
+            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/dice.jpg" alt="Chapter dice set, Carolina and white with pouch"></div>
+            <div class="c-gyre__arrow" data-size="M"><div></div></div>
+            <span class="product__sticker">SOLD<br>OUT</span>
+          </div>
+          <div class="product__info">
+            <h3><b>03-04</b>CHAPTER DICE SET</h3>
+            <p class="spec">CAROLINA / WHITE ★ CANVAS POUCH INCLUDED</p>
+            <p class="price"><s>$36</s><em>GONE</em></p>
+          </div>
+        </article>
+      </div>
+      <p class="p-drop__note" data-inview>NEXT DROP: NEVER ★ RAFFLE CLOSED ★ DON'T ASK</p>
+    </section>
+
+    <!-- TRIBE -->
+    <section class="p-tribe p-section" id="tribe">
+      <div class="sec-head" data-inview-head>
+        <h2 class="sec-head__title"><span class="idx">SEC.04</span><span class="tt" data-split-letters>TRI<i>BE</i></span></h2>
+        <p class="sec-head__meta">INTERNATIONAL <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> TRIBE<br>CAROLINA CHAPTER</p>
+      </div>
+      <div class="p-tribe__grid">
+        <a class="tribe-card" href="#store" data-nav-link>
+          <img class="tribe-card__env" src="/assets/lookbook/03_recordshop.jpg" alt="" aria-hidden="true">
+          <span class="tribe-card__idx">04-01</span>
+          <span class="tribe-card__ja">店舗</span>
+          <h3>THE<br>STORE</h3>
+          <p>Wood, mirrors, one tiki totem in a mortarboard.</p>
+          <span class="arrow"><div></div></span>
+        </a>
+        <a class="tribe-card" href="#lookbook" data-nav-link>
+          <img class="tribe-card__env" src="/assets/lookbook/04_court.jpg" alt="" aria-hidden="true">
+          <span class="tribe-card__idx">04-02</span>
+          <span class="tribe-card__ja">コート</span>
+          <h3>THE<br>COURT</h3>
+          <p>Argyle runs downhill to the rim. Dean Smith forever.</p>
+          <span class="arrow"><div></div></span>
+        </a>
+        <a class="tribe-card" href="#drop" data-nav-link>
+          <img class="tribe-card__env" src="/assets/lookbook/05_rooftop.jpg" alt="" aria-hidden="true">
+          <span class="tribe-card__idx">04-03</span>
+          <span class="tribe-card__ja">クルー</span>
+          <h3>THE<br>CREW</h3>
+          <p>IST — Carolina chapter. Tribe members get nothing.</p>
+          <span class="arrow"><div></div></span>
+        </a>
+        <a class="tribe-card" href="#story" data-nav-link>
+          <img class="tribe-card__env" src="/assets/lookbook/06_franklin_night.jpg" alt="" aria-hidden="true">
+          <span class="tribe-card__idx">04-04</span>
+          <span class="tribe-card__ja">タウン</span>
+          <h3>THE<br>TOWN</h3>
+          <p>Franklin St. Records, coffee, basketball, repeat.</p>
+          <span class="arrow"><div></div></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- STORE -->
+    <section class="p-store p-section" id="store">
+      <div class="sec-head" data-inview-head>
+        <h2 class="sec-head__title"><span class="idx">SEC.05</span><span class="tt" data-split-letters>THE<i>STORE</i></span></h2>
+        <p class="sec-head__meta">VISIT ★ HOURS ★ CONTACT<br>NO PHONE. SEND A DOVE.</p>
+      </div>
+      <div class="p-store__grid">
+        <div class="store-col" data-store-col>
+          <h4>VISIT</h4>
+          <p>178 E FRANKLIN ST<br>CHAPEL HILL, NC 27516<br>2F — UPSTAIRS<br>FOLLOW THE 8-BALL</p>
+        </div>
+        <div class="store-col" data-store-col>
+          <h4>HOURS</h4>
+          <p>MON–SUN<br>11:00 — 20:00<br>GAMEDAYS: TIL THE W<br><s>MIDNIGHT MADNESS</s></p>
+        </div>
+        <div class="store-col" data-store-col>
+          <h4>CONTACT</h4>
+          <p>CHAPELHILL@STUSSY.COM<br>@STUSSYCHAPELHILL<br>CARRIER PIGEON OK</p>
+        </div>
+        <div class="store-ram" data-store-col>
+          <img src="/assets/doodles/ram.png" alt="Hand-drawn ram doodle" width="420" height="420" data-scrub-rotate>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE 3 -->
+    <div class="c-marquee" data-type="gold" data-marquee aria-hidden="true">
+      <div class="c-marquee__inner">
+        <div class="marquee-set">
+          <div class="marquee-single">
+            <p class="bold" data-underline>GO HEELS</p><span class="arrow"><div></div></span>
+            <p class="normal">GDTBATH</p><span class="arrow"><div></div></span>
+            <p class="bold" data-underline>CHAPEL THRILL</p><span class="arrow"><div></div></span>
+            <p class="normal">8-BALL NEVER LIES</p><span class="arrow"><div></div></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="p-footer">
+      <div class="p-footer__gradbar" aria-hidden="true"></div>
+      <div class="p-footer__word" aria-hidden="true">
+        <img class="foot-logo" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506">
+        <span class="foot-block" data-split-letters>CHAPEL HILL</span>
+      </div>
+      <div class="p-footer__cols">
+        <div class="foot-col">
+          <h5>CHAPTER</h5>
+          <a href="#story" data-nav-link data-underline>STORY</a>
+          <a href="#lookbook" data-nav-link data-underline>LOOKBOOK</a>
+          <a href="#drop" data-nav-link data-underline>THE DROP</a>
+        </div>
+        <div class="foot-col">
+          <h5>TRIBE</h5>
+          <a href="#tribe" data-nav-link data-underline>COMMUNITY</a>
+          <a href="#store" data-nav-link data-underline>STORE</a>
+          <a href="#top" data-nav-link data-underline>BACK TO TOP</a>
+        </div>
+        <div class="foot-col">
+          <h5>ELSEWHERE</h5>
+          <span>INSTAGRAM — @STUSSYCHAPELHILL</span>
+          <span>MAIL — CHAPELHILL@STUSSY.COM</span>
+          <span>PIGEON — COOP 8, FRANKLIN ST</span>
+        </div>
+      </div>
+      <div class="p-footer__meta">
+        <p>© 2026 <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"></p>
+        <p class="disclaimer">INTERNATIONAL <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> TRIBE ★ WORLDWIDE<br>EVERYTHING IS SOLD OUT. FOREVER.</p>
+        <p>MADE WITH 💙 ON FRANKLIN ST</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- TYPO FRONT LAYER (ZOCCON p-typo-front: flowing strip above content) -->
+  <div class="p-typo-front" id="typo-front" aria-hidden="true">
+    <div id="typo-front-strip"><canvas id="typo-front-canvas"></canvas></div>
+  </div>
+
+  <!-- PAGE TOP BUTTON -->
+  <button class="p-pagetop" id="pagetop" aria-label="Back to top"><span class="arrow -up"><div></div></span></button>
+
+</body>
+</html>

@@ -1,8 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "buildCommand": null,
-  "outputDirectory": ".",
+  "framework": "vite",
+  "installCommand": "npm --prefix site ci",
+  "buildCommand": "npm --prefix site run build -- --base /",
+  "outputDirectory": "site/dist",
   "rewrites": [
     {
       "source": "/(.*)",
