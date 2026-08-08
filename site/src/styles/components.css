@@ -1,0 +1,332 @@
+/* ═══════════════════════════════════════════════════════════════════
+   COMPONENTS — section heads, bands, media frames, stamps, reveals.
+   Every one of these reads its colour from the surface roles, so the
+   same markup works on paper, navy, carolina and ink unchanged.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── SECTION ──────────────────────────────────────────────────────── */
+.sec {
+  position: relative; z-index: var(--z-content);
+  background: var(--wash); color: var(--on-surface);
+  padding-block: var(--section-y);
+}
+.sec--flush { padding-block-end: 0; }
+
+/* ── SECTION DECO ─────────────────────────────────────────────────
+   Background marks living inside the solid-colour sections, where the
+   page-level atmosphere cannot reach. Built in fx/deco.ts. */
+.sec__deco {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden; contain: paint;
+}
+.sec__deco-mark {
+  position: absolute; left: var(--x, 50%); top: var(--y, 50%);
+  width: var(--w, 12vw); aspect-ratio: var(--ar, 1);
+  opacity: 0.10; rotate: var(--rot, 0deg);
+  will-change: transform;
+}
+.sec__deco-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+/* Black ink needs inverting to read on the dark fields — but the dice
+   print is red, and inverting red gives cyan. It reads on both surfaces
+   as-is, so it opts out. */
+.t-navy .sec__deco-mark img,
+.t-ink .sec__deco-mark img { filter: invert(1); }
+.sec__deco-mark[data-mark="dice"] img { filter: none; }
+.t-carolina .sec__deco-mark { opacity: 0.13; }
+/* the section's own content has to clear the deco layer */
+.sec > *:not(.sec__deco) { position: relative; z-index: 1; }
+
+/* ── SECTION HEAD ─────────────────────────────────────────────────
+   Rule, index, display pair, meta. No overflow:hidden on the head
+   itself — the previous build clipped its own titles because the head
+   hid overflow while a scrub tween pushed the type ±26px past it. */
+.sec__head { padding-inline: var(--margin); margin-block-end: var(--s8); }
+.sec__rule {
+  display: flex; align-items: center; gap: var(--s4);
+  padding-block-end: var(--s4); border-block-end: 1px solid var(--rule);
+}
+.sec__rule .n { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: var(--tr-wide); color: var(--accent); font-variant-numeric: tabular-nums; }
+.sec__rule .k { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: var(--tr-mega); text-transform: uppercase; color: var(--on-surface-dim); }
+/* the rule draws itself out from the index rather than appearing */
+.sec__rule .ln {
+  flex: 1; height: 1px; background: var(--rule);
+  transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform var(--d5) var(--e-out) 90ms;
+}
+.-in .sec__rule .ln { transform: scaleX(1); }
+.sec__rule .n, .sec__rule .k {
+  opacity: 0; transform: translate3d(0, 10px, 0);
+  transition: opacity var(--d3) var(--e-out), transform var(--d3) var(--e-out);
+}
+.-in .sec__rule .n { opacity: 1; transform: none; }
+.-in .sec__rule .k { opacity: 1; transform: none; transition-delay: 260ms; }
+
+.sec__title {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--s7); flex-wrap: wrap; margin-block-start: var(--s5);
+}
+.sec__tt {
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: var(--t-d1); line-height: var(--lh-solid); letter-spacing: var(--tr-tight);
+}
+.sec__tt em {
+  display: block; font-style: italic; color: transparent;
+  -webkit-text-stroke: clamp(1.5px, 0.24vw, 4px) var(--accent);
+  paint-order: stroke fill;
+}
+/* Oversized ghost numeral. Section heads are a title on the left and a
+   short meta block on the right; without this the whole centre of a
+   140px-tall head is dead space. */
+.sec__no {
+  margin-inline: auto var(--s7);
+  font-family: var(--f-display); font-weight: 800; font-style: italic;
+  font-size: var(--t-d1); line-height: var(--lh-solid); letter-spacing: var(--tr-tight);
+  color: transparent; -webkit-text-stroke: 1.5px var(--on-surface-dim);
+  user-select: none; pointer-events: none;
+  opacity: 0; transform: translate3d(0, 30px, 0) rotate(-7deg) scale(0.9);
+  transition: opacity var(--d5) var(--e-out) 380ms, transform var(--d5) var(--e-out) 380ms;
+}
+.-in .sec__no { opacity: 0.3; transform: none; }
+.sec__meta {
+  font-family: var(--f-mono); font-size: var(--t-label); line-height: 2;
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  text-align: right; color: var(--on-surface-dim); padding-block-end: 0.5em;
+}
+
+/* ── BAND (marquee) ───────────────────────────────────────────────
+   Full-bleed, tilted, overlapping the sections it sits between. Two
+   rows running opposite ways reads as printed tape rather than a
+   scrolling <div>. The loop is one GPU transform per row. */
+.band {
+  position: relative; z-index: var(--z-band);
+  margin-block: calc(var(--section-y) * -0.22);
+  padding-block: 0; overflow: hidden;
+  transform: rotate(var(--rot, -2deg)) scale(1.06);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+/* width:max-content is load-bearing: a block-level flex row is 100% of
+   its parent, so its BACKGROUND would only ever paint one viewport wide
+   — the moment the row translates, the paint runs out mid-screen and
+   the tape appears to be cut in half. */
+.band__row {
+  display: flex; white-space: nowrap; align-items: center;
+  width: max-content;
+  background: var(--band-bg, var(--ink)); color: var(--band-fg, var(--paper));
+  border-block: 2px solid var(--ink);
+  padding-block: 0.22em;
+  will-change: transform;
+}
+.band__row + .band__row { margin-block-start: -2px; }
+/* urgent: a hard colour flip while the page is being scrolled fast,
+   ported from the reference's kf-marquee-urgent. The tape reacts to
+   you rather than looping obliviously. */
+.band__row { transition: background-color 140ms linear, color 140ms linear; }
+.band.-urgent .band__row { background: var(--ink); color: var(--paper); }
+.band.-urgent em { -webkit-text-stroke-color: var(--flare); }
+.band.-urgent .dot { background: var(--flare); }
+.band__set { display: flex; align-items: center; flex: 0 0 auto; }
+.band__set > * { flex: 0 0 auto; }
+.band em, .band b {
+  font-family: var(--f-display); font-style: italic; text-transform: uppercase;
+  font-size: clamp(30px, 4.4vw, 68px); line-height: 1;
+  letter-spacing: var(--tr-tight); padding-inline: 0.16em;
+}
+.band b { font-weight: 800; }
+.band em { font-weight: 400; color: transparent; -webkit-text-stroke: 1.5px currentColor; }
+.band .dot {
+  width: 0.34em; height: 0.34em; border-radius: 50%;
+  background: currentColor; margin-inline: 0.5em;
+  font-size: clamp(30px, 4.4vw, 68px);
+}
+.band--flare  { --band-bg: var(--flare);    --band-fg: var(--paper); }
+.band--paper  { --band-bg: var(--paper);    --band-fg: var(--ink); }
+.band--caro   { --band-bg: var(--carolina); --band-fg: var(--navy); }
+.band--navy   { --band-bg: var(--navy);     --band-fg: var(--carolina-hi); }
+
+/* ── MEDIA FRAME ──────────────────────────────────────────────────
+   A photo, two ghost copies that fan out on hover, and a cue dot.
+   The ghosts are built in JS only when the device actually has hover
+   (see fx/media.ts) — on touch they would be three wasted layers. */
+.media { position: relative; }
+
+/* ── FRAME SHAPES ─────────────────────────────────────────────────
+   No photograph on this site is a plain rectangle. The reference
+   rounds every image generously (inset round ~1.28vw at a 1440 stage);
+   these go further with arch and oval cuts, because a rounded box is
+   still a box. Shape is chosen per-photo via data-shape. */
+.media__frame {
+  position: relative; overflow: hidden; background: var(--ink-faint);
+  aspect-ratio: var(--ar, 3 / 4);
+  border-radius: var(--frame-r, clamp(10px, 1.28vw, 20px));
+  transform: rotate(var(--frame-rot, 0deg));
+  transition: transform var(--d3) var(--e-out);
+}
+/* doorway — reads as the Old Well rotunda rather than a crop */
+.media[data-shape="arch"]  .media__frame { --frame-r: 50vw 50vw clamp(10px, 1.28vw, 20px) clamp(10px, 1.28vw, 20px); }
+.media[data-shape="oval"]  .media__frame { --frame-r: 50%; }
+/* asymmetric — two opposite corners pulled long */
+.media[data-shape="leaf"]  .media__frame { --frame-r: clamp(48px, 7vw, 110px) clamp(10px, 1.28vw, 20px); }
+.media[data-shape="pill"]  .media__frame { --frame-r: 50vw; }
+
+/* An offset plate peeking out behind the photo, so the image reads as
+   printed onto something rather than floating. Done as a hard-edged
+   box-shadow: it paints outside the frame (a child element would be
+   eaten by overflow:hidden), follows the border-radius through every
+   shape variant for free, and needs no extra node. */
+.media[data-plate] .media__frame {
+  box-shadow: var(--plate-x, 15px) var(--plate-y, 15px) 0 0 var(--plate, transparent);
+  transition: transform var(--d3) var(--e-out), box-shadow var(--d3) var(--e-out);
+}
+.media[data-plate]:hover .media__frame { box-shadow: 0 0 0 0 var(--plate, transparent); }
+.media[data-plate="flare"] .media__frame { --plate: var(--flare); }
+.media[data-plate="caro"]  .media__frame { --plate: var(--carolina); }
+.media[data-plate="navy"]  .media__frame { --plate: var(--navy); }
+.media[data-plate="gold"]  .media__frame { --plate: var(--gold); }
+/* Every copy is absolute — the frame's aspect-ratio owns the height, so
+   ghosts can be inserted BEFORE the base image (paint order puts them
+   behind it) without the stack losing its size. */
+.media__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; transform-origin: 50% 50%;
+}
+.media__frame.-live .media__img { will-change: transform; }
+.media__cap {
+  display: flex; align-items: baseline; gap: var(--s3);
+  /* clears the plate, which can hang below the frame by --plate-y */
+  margin-block-start: calc(var(--s4) + max(0px, var(--plate-y, 0px)));
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.media__cap .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+.media__cap .x { margin-inline-start: auto; color: var(--on-surface-dim); }
+
+/* ── STAMP ────────────────────────────────────────────────────────
+   Die-cut, double-ruled, tilted. Replaces the dashed-border circles. */
+.stamp {
+  position: absolute; z-index: 4; display: grid; place-items: center;
+  width: clamp(72px, 8.5vw, 116px); aspect-ratio: 1; border-radius: 50%;
+  background: var(--stamp-bg, var(--flare)); color: var(--stamp-fg, var(--paper));
+  border: 2px solid currentColor; box-shadow: 0 0 0 3px var(--stamp-bg, var(--flare));
+  transform: rotate(var(--stamp-rot, -11deg));
+  font-family: var(--f-display); font-weight: 800; font-style: italic;
+  text-transform: uppercase; text-align: center; line-height: 0.9;
+  font-size: clamp(13px, 1.35vw, 19px); letter-spacing: 0.03em;
+  pointer-events: none;
+}
+.stamp--ink  { --stamp-bg: var(--ink);   --stamp-fg: var(--paper); }
+.stamp--navy { --stamp-bg: var(--navy);  --stamp-fg: var(--carolina-hi); }
+.stamp--caro { --stamp-bg: var(--carolina); --stamp-fg: var(--navy); }
+
+/* ── SHEEN ────────────────────────────────────────────────────────
+   The wordmark as a mask rather than an image, with a slow colour band
+   travelling through the letterforms.
+
+   The band is a TRANSFORMED child, not an animated background-position:
+   background-position repaints the whole element every frame, and this
+   element is ~720px wide. A translating child stays on the compositor. */
+/* The base colour is a variable, not a literal: .sheen and any user of
+   it (.loader__mark) tie on specificity, and whichever file imports
+   later would otherwise silently win — which painted the loader mark
+   ink-on-ink. */
+.sheen {
+  position: relative; overflow: hidden;
+  background: var(--sheen-base, var(--ink));
+  -webkit-mask: var(--mark) no-repeat center / contain;
+  mask: var(--mark) no-repeat center / contain;
+}
+/* A narrow band, translated across its own width. Percentage transforms
+   resolve against the ELEMENT, not the parent — sizing the band at 38%
+   of the mark and sweeping it -120%→380% carries it cleanly from off
+   the left edge to off the right. */
+.sheen > i {
+  position: absolute; top: -10%; bottom: -10%; left: 0;
+  width: 38%;
+  background: linear-gradient(100deg,
+    transparent 0%, var(--carolina) 28%, var(--flare) 50%, var(--gold) 72%, transparent 100%);
+  will-change: transform;
+  animation: sheen-run 7.5s linear infinite;
+  animation-play-state: var(--atmos-play, running);
+}
+@keyframes sheen-run {
+  from { transform: translate3d(-120%, 0, 0); }
+  to   { transform: translate3d(380%, 0, 0); }
+}
+
+/* ── ROTARY BADGE ─────────────────────────────────────────────────── */
+.badge { position: relative; display: grid; place-items: center; }
+.badge svg { width: 100%; height: 100%; animation: badge-spin 18s linear infinite; }
+.badge svg text {
+  font-family: var(--f-mono); font-size: 12.5px; font-weight: 600;
+  letter-spacing: 0.24em; fill: currentColor; text-transform: uppercase;
+}
+/* the doodle PNGs carry real alpha (keyed via qa/decon_logo.mjs), so no
+   blend-mode trick is needed to hide a white plate */
+.badge img { position: absolute; width: 30%; }
+@keyframes badge-spin { to { transform: rotate(360deg); } }
+
+/* ── ARROW BUTTON ─────────────────────────────────────────────────── */
+.arrow {
+  display: grid; place-items: center; width: 2.4em; height: 2.4em;
+  border: 1.5px solid currentColor; border-radius: 50%;
+  transition: background-color var(--d2) var(--e-out), color var(--d2) var(--e-out);
+}
+.arrow svg { width: 0.75em; height: 0.75em; }
+
+/* ═══ REVEAL MECHANICS ═══════════════════════════════════════════
+   All reveals are transform + opacity only, and every one has a
+   settled fallback so a failed observer can never leave content
+   invisible (see the .-no-motion escape hatch in core/motion.ts). */
+
+[data-reveal] {
+  opacity: 0; transform: translate3d(0, 40px, 0);
+  transition: opacity var(--d4) var(--e-out), transform var(--d4) var(--e-out);
+  transition-delay: var(--rd, 0ms);
+}
+[data-reveal].-in { opacity: 1; transform: none; }
+
+/* letter roll — the wrapper clips, the glyph rides up. The clip window
+   is wider and taller than the glyph box on purpose: this Futura cut has
+   negative side bearings (ink starts up to ~0.05em left of the origin),
+   italic caps overhang the advance on the right, and -webkit-text-stroke
+   paints half its width outside the outline — a box-tight wrapper sliced
+   all of it off. Padding opens the window; the matching negative margins
+   keep every glyph's layout position pixel-identical. */
+.glw { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.05em 0.08em 0.2em; margin: -0.05em -0.08em -0.2em; }
+/* 135%, not ~108%: the padded window reaches 0.2em below the glyph box,
+   so a smaller initial offset would leave the glyph's crown peeking in */
+.gl  { display: inline-block; transform: translate3d(0, 135%, 0) rotate(3deg); will-change: transform; }
+/* settles to a per-glyph offset, not to zero — see reveals.ts */
+.-in .gl {
+  transform: translate3d(0, var(--gy, 0), 0) rotate(var(--gr, 0deg));
+  transition: transform var(--d4) var(--e-out);
+  transition-delay: var(--gd, 0ms);
+}
+
+/* word roll */
+.wdw { display: inline-block; overflow: hidden; vertical-align: bottom; padding-block-end: 0.1em; margin-block-end: -0.1em; }
+.wd  { display: inline-block; transform: translate3d(0, 105%, 0); will-change: transform; }
+.-in .wd {
+  transform: none;
+  transition: transform var(--d3) var(--e-out);
+  transition-delay: var(--wd, 0ms);
+}
+
+/* split hosts are visible from the start — the glyphs carry the reveal */
+[data-reveal][data-split], [data-split] { opacity: 1; }
+[data-reveal][data-split] { transform: none; }
+
+/* compositor layers are released once the reveal has finished */
+.-settled .gl, .-settled .wd { will-change: auto; }
+
+/* The escape hatch: reduced motion, or JS that never booted. Every
+   hidden-by-default state above has to be listed here, or a failed
+   observer leaves that element invisible forever. */
+.-no-motion [data-reveal],
+.-no-motion .gl,
+.-no-motion .wd,
+.-no-motion .sec__rule .n,
+.-no-motion .sec__rule .k,
+.-no-motion .sec__no { opacity: 1 !important; transform: none !important; }
+.-no-motion .sec__no { opacity: 0.3 !important; }
+.-no-motion .sec__rule .ln { transform: scaleX(1) !important; }

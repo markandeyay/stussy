@@ -1,0 +1,360 @@
+/* ═══════════════════════════════════════════════════════════════════
+   SECTIONS — each one claims a surface and a shape.
+   Identity comes from which colour owns the whole field and how the
+   grid breaks, never from sprinkling accents on a neutral page.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── HERO ─────────────────────────────────────────────────────────
+   Magazine cover: masthead rule, dominant mark, mascot, dense corner
+   meta. The atmosphere shows through here at full strength — this is
+   the one place the noise is the point. */
+.hero {
+  position: relative; z-index: var(--z-content);
+  min-height: 100svh; display: grid; align-content: space-between;
+  /* the tilted band overlaps the section seam — the floor has to clear it */
+  padding: calc(var(--s9) + 2vw) var(--margin) var(--s9);
+  overflow: clip;
+}
+.hero__eyebrow {
+  display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap;
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-mega); text-transform: uppercase;
+}
+.hero__eyebrow .ln { flex: 1; min-width: 24px; height: 1px; background: var(--ink-faint); }
+.hero__eyebrow .hot { color: var(--flare); }
+
+.hero__stage {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
+  align-items: center; gap: var(--gutter);
+  padding-block: clamp(var(--s6), 5vh, var(--s9));
+}
+.hero__lockup { position: relative; }
+.hero__mark {
+  display: block; width: min(58vw, 720px); aspect-ratio: 735 / 506;
+  transform: rotate(-2deg); transform-origin: 0 50%;
+}
+.hero__tag {
+  display: inline-flex; align-items: center; gap: var(--s4);
+  margin-block-start: var(--s5); padding: 0.6em 1.1em;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-mega); text-transform: uppercase;
+}
+.hero__tag .jp { letter-spacing: 0.18em; }
+.hero__tag .hot { color: var(--flare); }
+
+.hero__mascot { position: relative; justify-self: end; width: min(34vw, 460px); }
+/* direct child only — `.hero__mascot img` ties on specificity with
+   `.badge img` and, coming later in the cascade, stretched the 8-ball
+   to fill the whole badge so its white plate covered the ring */
+.hero__mascot > img { width: 100%; }
+.hero__mascot .badge {
+  position: absolute; left: -6%; bottom: 4%;
+  width: clamp(84px, 9vw, 128px); aspect-ratio: 1; color: var(--navy);
+}
+
+.hero__foot {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--s6); flex-wrap: wrap;
+  padding-block-start: var(--s4); border-block-start: 1px solid var(--ink-faint);
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.hero__scroll { display: flex; align-items: center; gap: var(--s3); }
+.hero__scroll i {
+  display: block; width: 1px; height: 22px; background: var(--ink);
+  transform-origin: 50% 0; animation: scroll-tick 2.2s var(--e-inout) infinite;
+}
+@keyframes scroll-tick {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.3; }
+  50%      { transform: scaleY(1);   opacity: 1; }
+}
+.hero__side {
+  position: absolute; right: calc(var(--margin) * -0.1); top: 50%;
+  transform: translateY(-50%); writing-mode: vertical-rl;
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-mega); text-transform: uppercase;
+  color: var(--ink-soft); opacity: 0.55;
+}
+
+/* ── STORY ────────────────────────────────────────────────────────── */
+/* overflow: clip stops the scrubbed ghost spilling sideways, but it also
+   sliced the ghost's crown (it sits at top:-6%). The clip margin re-opens
+   just the off-screen bleed: the pin is full-bleed, so the extra margin
+   only ever reveals area that was already inside the viewport. */
+.story__pin { position: relative; overflow: clip; overflow-clip-margin: var(--s9); padding-block: var(--s7); }
+.story__ghost {
+  position: absolute; top: -6%; left: -6%; z-index: 0;
+  font-family: var(--f-display); font-weight: 800; font-style: italic;
+  font-size: var(--t-mega); line-height: 0.8; letter-spacing: var(--tr-tight);
+  text-transform: uppercase; white-space: nowrap; color: transparent;
+  -webkit-text-stroke: clamp(2px, 0.34vw, 6px) var(--gold);
+  opacity: 0.34; pointer-events: none; user-select: none; will-change: transform;
+}
+.story__grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: clamp(var(--s6), 5vw, var(--s10)); align-items: start;
+  padding-inline: var(--margin);
+}
+.story__lede {
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: var(--t-lede); line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight); color: var(--navy);
+  margin-block-end: var(--s6);
+}
+.story__lede .lnw { display: block; overflow: hidden; padding-block-end: 0.06em; margin-block-end: -0.06em; }
+.story__lede .ln { display: inline-block; will-change: transform; }
+/* marker wipe: a background stripe grown from 0 width, so the "highlighter"
+   travels across the words instead of fading in behind them */
+.story__lede .ln--mark {
+  background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 58% / 0% 62%;
+  padding-inline: 0.16em; box-decoration-break: clone;
+}
+.story__body { font-size: var(--t-body); line-height: var(--lh-body); max-width: 58ch; margin-block-end: var(--s5); }
+.story__body .mark-inline {
+  height: 1.9em; width: auto; display: inline-block;
+  vertical-align: -0.62em; margin-inline: 0.1em;
+}
+
+.facts { margin-block-start: var(--s7); border-block-start: 1px solid var(--rule); }
+.facts > div {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--s5);
+  padding-block: var(--s4); border-block-end: 1px solid var(--rule);
+}
+.facts dt {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-mega); text-transform: uppercase; color: var(--accent);
+  flex: 0 0 auto;
+}
+.facts dd {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase; text-align: right;
+}
+
+.story__media { position: relative; }
+.story__media .media__frame { --ar: 1400 / 933; }
+.story__media .badge {
+  position: absolute; top: -7%; left: -7%; z-index: 3;
+  width: clamp(96px, 11vw, 150px); aspect-ratio: 1; color: var(--navy);
+}
+
+/* ── LOOKBOOK ─────────────────────────────────────────────────────
+   The dark room. Full-bleed navy, pinned horizontal track — the one
+   place the page stops scrolling down and starts scrolling sideways. */
+.lookbook { overflow: clip; }
+/* the pinned viewport centres the track vertically, so the shots never
+   run under the fixed header when the pin engages */
+.lookbook__pin {
+  position: relative; min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-block: var(--s8) var(--s6);
+}
+.lookbook__track {
+  display: flex; align-items: flex-start; gap: clamp(20px, 3.2vw, 56px);
+  padding-inline: var(--margin); width: max-content; will-change: transform;
+}
+.lookbook__track .shot { flex: 0 0 auto; width: clamp(260px, 29vw, 440px); }
+.lookbook__track .shot:nth-child(even) { margin-block-start: clamp(36px, 9vh, 120px); }
+.lookbook__end {
+  flex: 0 0 auto; width: clamp(240px, 24vw, 380px); align-self: center;
+  display: grid; gap: var(--s4); text-align: center;
+}
+.lookbook__end .big {
+  font-family: var(--f-display); font-weight: 800; font-style: italic;
+  font-size: var(--t-d2); line-height: 0.9; text-transform: uppercase;
+  color: transparent; -webkit-text-stroke: 2px var(--carolina-hi);
+}
+.lookbook__end .sub {
+  font-family: var(--f-mono); font-size: var(--t-label); line-height: 2.1;
+  letter-spacing: var(--tr-mega); text-transform: uppercase; color: var(--on-surface-dim);
+}
+.lookbook__hud {
+  display: flex; align-items: center; gap: var(--s4);
+  padding: var(--s7) var(--margin) 0;
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.lookbook__hud .cur { color: var(--carolina-hi); font-variant-numeric: tabular-nums; }
+.lookbook__hud .tot { color: var(--on-surface-dim); font-variant-numeric: tabular-nums; }
+.lookbook__bar { position: relative; flex: 1; max-width: 260px; height: 2px; background: var(--rule); }
+.lookbook__bar i {
+  position: absolute; inset: 0; background: var(--carolina-hi);
+  transform: scaleX(0); transform-origin: 0 50%; will-change: transform;
+}
+.lookbook__hint { margin-inline-start: auto; color: var(--on-surface-dim); }
+
+/* ── DROP ─────────────────────────────────────────────────────────── */
+.drop__grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(var(--s4), 2vw, var(--s6)); padding-inline: var(--margin);
+}
+.product { position: relative; }
+.product .media__frame {
+  --ar: 1; background: var(--paper-warm);
+  border: 1px solid var(--ink);
+}
+.product .stamp { top: 5%; right: 4%; }
+.product__info { margin-block-start: var(--s4); padding-block-start: var(--s3); border-block-start: 1px solid var(--rule); }
+.product__sku {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-mega); color: var(--accent); display: block;
+  margin-block-end: var(--s2);
+}
+.product__name {
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(17px, 1.6vw, 24px); line-height: 1.02; letter-spacing: var(--tr-tight);
+}
+.product__spec {
+  margin-block-start: var(--s2); font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--on-surface-dim);
+  line-height: 1.7;
+}
+.product__price {
+  display: flex; align-items: baseline; gap: var(--s3); margin-block-start: var(--s3);
+  font-family: var(--f-mono); font-size: var(--t-small); letter-spacing: var(--tr-wide);
+}
+.product__price s { opacity: 0.42; }
+.product__price em {
+  font-style: normal; font-weight: 700; color: var(--flare);
+  letter-spacing: var(--tr-wide);
+}
+.drop__note {
+  margin-block-start: var(--s9); padding-inline: var(--margin); text-align: center;
+  font-family: var(--f-display); font-weight: 800; font-style: italic;
+  text-transform: uppercase; font-size: var(--t-d3); line-height: 1;
+  letter-spacing: var(--tr-tight); color: var(--navy);
+}
+.drop__note span { color: var(--flare); }
+
+/* ── TRIBE ────────────────────────────────────────────────────────── */
+.tribe__grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(var(--s3), 1.6vw, var(--s5)); padding-inline: var(--margin);
+}
+/* flex column + margin-top:auto on the copy pins the blurb to the floor,
+   so the card fills instead of stacking everything against the ceiling
+   and colliding with the arrow */
+.tribe-card {
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  min-height: clamp(260px, 34vh, 380px); padding: clamp(var(--s5), 2.4vw, var(--s7));
+  border: 1.5px solid var(--navy); color: var(--navy);
+  transition: transform var(--d3) var(--e-out), color var(--d3) var(--e-out);
+}
+.tribe-card__bg {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.14);
+  transition: opacity var(--d3) var(--e-out), transform var(--d5) var(--e-out);
+}
+/* Expanding ellipse from a per-card origin, ported from the reference's
+   environment cards. A veil that scales up from the floor is a curtain;
+   an ellipse blooming from an off-centre point is an event — and giving
+   each card its own origin means the row never fires in unison. */
+.tribe-card__veil {
+  position: absolute; inset: 0; background: var(--navy);
+  clip-path: ellipse(0% 0% at var(--ox, 50%) var(--oy, 50%));
+  transition: clip-path var(--d3) var(--e-inout);
+}
+.tribe-card:nth-child(1) { --ox: 16%; --oy: 86%; }
+.tribe-card:nth-child(2) { --ox: 84%; --oy: 14%; }
+.tribe-card:nth-child(3) { --ox: 12%; --oy: 22%; }
+.tribe-card:nth-child(4) { --ox: 88%; --oy: 80%; }
+/* Lift the content above the veil by naming it. A blanket
+   `> *:not(.a):not(.b)` scores (0,3,0) and silently outranked the
+   `.tribe-card .arrow` rule below it, dropping the arrow back into
+   flow on top of the copy. */
+.tribe-card__idx,
+.tribe-card__ttl,
+.tribe-card__txt { position: relative; z-index: 2; }
+.tribe-card__jp { z-index: 2; }
+.tribe-card:hover, .tribe-card:focus-visible { transform: translateY(-6px); color: var(--carolina-hi); }
+.tribe-card:hover .tribe-card__veil,
+.tribe-card:focus-visible .tribe-card__veil { clip-path: ellipse(126% 126% at var(--ox, 50%) var(--oy, 50%)); }
+.tribe-card:hover .tribe-card__bg, .tribe-card:focus-visible .tribe-card__bg { opacity: 0.32; transform: none; }
+.tribe-card__idx {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-mega); text-transform: uppercase; opacity: 0.7;
+}
+.tribe-card__jp {
+  position: absolute; top: clamp(var(--s5), 2.4vw, var(--s7)); right: clamp(var(--s5), 2.4vw, var(--s7));
+  writing-mode: vertical-rl; font-size: var(--t-label); letter-spacing: 0.2em; opacity: 0.45;
+}
+.tribe-card__ttl {
+  margin-block-start: var(--s3);
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(30px, 3.4vw, 54px); line-height: 0.9; letter-spacing: var(--tr-tight);
+}
+.tribe-card__txt {
+  margin-block-start: auto; padding-block-start: var(--s6); padding-inline-end: 3.8em;
+  font-size: var(--t-small); line-height: 1.55;
+}
+.tribe-card .arrow {
+  position: absolute; z-index: 3;
+  bottom: clamp(var(--s5), 2.4vw, var(--s7)); right: clamp(var(--s5), 2.4vw, var(--s7));
+}
+.tribe-card:hover .arrow, .tribe-card:focus-visible .arrow {
+  background: var(--carolina-hi); color: var(--navy);
+}
+
+/* ── STORE ────────────────────────────────────────────────────────── */
+.store__grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: clamp(var(--s6), 4vw, var(--s9)); align-items: start; padding-inline: var(--margin);
+}
+.store-col h3 {
+  display: inline-block; padding-block-end: var(--s2); margin-block-end: var(--s5);
+  border-block-end: 2px solid var(--accent);
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(19px, 2vw, 30px); letter-spacing: var(--tr-tight);
+}
+.store-col p {
+  font-family: var(--f-mono); font-size: var(--t-small); line-height: 2.1;
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.store-col s { opacity: 0.4; }
+.store__ram { justify-self: end; width: clamp(190px, 21vw, 320px); }
+/* real Stüssy print artwork, keyed off garment photography. Inverting
+   flips the black ink to paper-white against the ink field; the alpha
+   is genuine so no blend mode is involved — and a blend mode would be
+   unreliable here anyway, since the scrub promotes this element to its
+   own compositor layer. */
+.store__ram img {
+  width: 100%; height: auto; filter: invert(1); opacity: 0.8;
+  will-change: transform;
+}
+
+/* ── FOOTER ───────────────────────────────────────────────────────── */
+.footer { position: relative; z-index: var(--z-content); background: var(--ink); color: var(--paper); overflow: clip; }
+.footer__bar { height: 4px; background: linear-gradient(90deg, var(--carolina), var(--gold) 45%, var(--flare) 72%, var(--navy)); }
+.footer__inner { padding: var(--s9) var(--margin) var(--s6); }
+.footer__word { display: grid; gap: var(--s4); justify-items: start; }
+.footer__word img { width: min(46vw, 560px); filter: invert(1); }
+.footer__word .big {
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: var(--t-d1); line-height: var(--lh-solid); letter-spacing: var(--tr-tight);
+  color: transparent; -webkit-text-stroke: clamp(1.5px, 0.22vw, 3.5px) var(--paper);
+}
+.footer__cols {
+  display: flex; gap: clamp(var(--s7), 7vw, var(--s11)); flex-wrap: wrap;
+  margin-block-start: var(--s9); padding-block-start: var(--s6);
+  border-block-start: 1px solid var(--rule);
+}
+.footer__col { display: grid; gap: 0.65em; align-content: start; }
+.footer__col h4 {
+  font-family: var(--f-mono); font-size: var(--t-micro); letter-spacing: var(--tr-mega);
+  text-transform: uppercase; color: var(--flare); margin-block-end: var(--s2);
+}
+.footer__col a, .footer__col span {
+  width: max-content; font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.footer__meta {
+  display: flex; justify-content: space-between; gap: var(--s5); flex-wrap: wrap;
+  margin-block-start: var(--s9); padding-block-start: var(--s5);
+  padding-inline-end: 72px; /* clears the fixed back-to-top button */
+  border-block-start: 1px solid var(--rule);
+  font-family: var(--f-mono); font-size: var(--t-micro); line-height: 1.9;
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  color: var(--on-surface-dim);
+}
+.footer__meta .mark-inline { height: 1.5em; width: auto; display: inline-block; vertical-align: -0.4em; filter: invert(1); }

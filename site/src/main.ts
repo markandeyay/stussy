@@ -1,56 +1,66 @@
 import './style.css'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { initSmooth, scrollToTarget, onVelocity } from './smooth'
-import { runLoader } from './loader'
-import { initMarquees } from './marquee'
-import { initReveals, heroIntro } from './reveals'
-import { Transition } from './zoc/transition'
-import { initTypo } from './zoc/typo'
-import { initGyres } from './zoc/gyre'
-import { initScrollFX } from './scrollfx'
+import { initMotion } from './core/motion'
+import { initScroll, scrollTo } from './core/scroll'
+import { runLoader } from './fx/loader'
+import { Curtain } from './fx/curtain'
+import { initAtmosphere } from './fx/atmosphere'
+import { initDeco } from './fx/deco'
+import { initBands } from './fx/bands'
+import { initMedia } from './fx/media'
+import { initCursor } from './fx/cursor'
+import { initChrome } from './fx/chrome'
+import { initReveals } from './reveals'
+import { prepareScenes, heroIntro, initScenes, refreshScenes } from './scenes'
 
-gsap.registerPlugin(ScrollTrigger)
+/* ═══════════════════════════════════════════════════════════════════
+   STÜSSY CHAPEL HILL CHAPTER
+   Boot order matters: motion prefs decide what everything else builds,
+   scroll must exist before anything subscribes to it, and the hidden
+   pre-intro states must be set before the loader can uncover them.
+   ═══════════════════════════════════════════════════════════════════ */
 
 const boot = () => {
-  initSmooth()
+  initMotion()
+  initScroll()
 
-  const transition = new Transition('transition')
-  const typo = initTypo()
+  prepareScenes()
 
-  const marqueeApi = initMarquees()
-  onVelocity((v) => {
-    marqueeApi.push(v)
-    typo && typo.velocity(v)
-  })
+  const curtain = new Curtain('curtain')
+  const atmosphere = initAtmosphere()
 
-  initGyres()
+  initChrome()
+  initDeco()
+  initBands()
+  initMedia()
+  initCursor()
   initReveals()
-  initScrollFX()
+  initScenes()
 
-  /* nav: stripe wipe over, jump to anchor while covered, wipe away */
-  document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach((a) => {
+  /* anchor nav: cover, jump, uncover */
+  const jump = (href: string) => {
+    curtain.wipe(() => scrollTo(href === '#hero' ? 0 : href, true))
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach((a) => {
     a.addEventListener('click', (e) => {
       const href = a.getAttribute('href')
-      if (!href || !href.startsWith('#')) return
+      if (!href?.startsWith('#')) return
       e.preventDefault()
-      transition.wipe(() => {
-        scrollToTarget(href === '#top' ? 0 : href, true)
-      })
+      jump(href)
     })
   })
 
-  const pagetop = document.getElementById('pagetop')
-  pagetop && pagetop.addEventListener('click', () => {
-    transition.wipe(() => scrollToTarget(0, true))
-  })
+  document.getElementById('pagetop')?.addEventListener('click', () => jump('#hero'))
 
   runLoader(() => {
     heroIntro()
-    typo && typo.start()
-    ScrollTrigger.refresh()
+    atmosphere?.start()
+    refreshScenes()
   })
-  window.addEventListener('load', () => ScrollTrigger.refresh())
+
+  /* late-loading images change the document height; one refresh on load
+     re-measures every trigger against the final layout */
+  window.addEventListener('load', () => refreshScenes(), { once: true })
 }
 
 if (document.readyState === 'loading') {

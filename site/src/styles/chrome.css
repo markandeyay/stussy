@@ -1,0 +1,303 @@
+/* ═══════════════════════════════════════════════════════════════════
+   CHROME — the persistent frame: atmosphere, grain, loader, curtain,
+   header, chapter rail, cursor, page-top.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── ATMOSPHERE ───────────────────────────────────────────────────
+   The underprint. Replaces the old canvas danmaku, which redrew ~1500
+   fillText calls every frame on the main thread.
+
+   Each lane is ONE element carrying two copies of its phrase set and a
+   CSS keyframe that slides it exactly -50%. Chrome promotes transform
+   keyframes to the compositor, so the streaming costs the main thread
+   nothing at all — no rAF, no ticker, no per-frame JS. Scroll-velocity
+   response is a single transform on the parent (see fx/atmosphere.ts).
+
+   Density is art-directed, not maximised: lanes are sparse enough that
+   content reads through them, and paper sections lay a --wash over the
+   top so copy sits on a surface instead of on noise. */
+.atmos {
+  position: fixed; inset: 0; z-index: var(--z-atmos);
+  pointer-events: none; overflow: hidden; contain: strict;
+  opacity: 0; transition: opacity var(--d5) var(--e-out);
+}
+.atmos.-ready { opacity: 1; }
+/* three planes, each parallaxing at its own rate (see fx/atmosphere.ts)
+   so the field separates into depth on scroll instead of sliding flat */
+.atmos__layer { position: absolute; inset: 0; will-change: transform; }
+
+.atmos__lane {
+  position: absolute; left: 0; top: var(--y, 0);
+  display: flex; white-space: nowrap; will-change: transform;
+  font-family: var(--f-display); font-weight: var(--fw, 800);
+  font-style: italic; text-transform: uppercase;
+  font-size: var(--fs, 40px); line-height: 1;
+  letter-spacing: var(--ls, -0.01em);
+  color: var(--c, rgba(16, 15, 13, 0.075));
+  animation: atmos-run var(--dur, 90s) linear infinite;
+  animation-play-state: var(--atmos-play, running);
+}
+.atmos__lane[data-dir="r"] { animation-name: atmos-run-r; }
+.atmos__lane b { font-weight: inherit; padding-inline-end: var(--gap, 0.6em); }
+
+@keyframes atmos-run   { from { transform: translate3d(0, 0, 0); }    to { transform: translate3d(-50%, 0, 0); } }
+@keyframes atmos-run-r { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
+
+/* ── MID: the drift field ─────────────────────────────────────────
+   Marks that sit in the world and breathe. One composited keyframe
+   each, all of them off their own clock via a negative delay so the
+   field is already mid-motion on first paint rather than starting in
+   lockstep. */
+.atmos__mark {
+  position: absolute; left: var(--x, 10vw); top: var(--y, 20vh);
+  width: var(--w, 7vw); aspect-ratio: var(--ar, 1);
+  opacity: var(--op, 0.14);
+  will-change: transform;
+  animation: atmos-breathe var(--dur, 16s) ease-in-out var(--delay, 0s) infinite alternate;
+  animation-play-state: var(--atmos-play, running);
+}
+.atmos__mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+@keyframes atmos-breathe {
+  from { transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg)); }
+  to   { transform: translate3d(var(--sway, 14px), calc(var(--sway, 14px) * -0.75), 0)
+                    rotate(calc(var(--rot, 0deg) + var(--spin, 8deg))); }
+}
+
+/* ── NEAR: crossings ──────────────────────────────────────────────
+   Long gaps between them so they read as punctuation, not wallpaper. */
+.atmos__chara {
+  position: absolute; top: var(--y, 20vh); left: 0;
+  width: var(--w, 16vw); aspect-ratio: var(--ar, 1); opacity: 0;
+  will-change: transform;
+}
+.atmos__chara img { width: 100%; height: 100%; object-fit: contain; opacity: 0.15; display: block; }
+.atmos__chara.-run {
+  animation: atmos-cross var(--dur, 13s) linear forwards;
+}
+@keyframes atmos-cross {
+  0%   { transform: translate3d(105vw, 0, 0) rotate(calc(var(--tilt, 6deg) * -1)); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translate3d(-32vw, 0, 0) rotate(var(--tilt, 6deg)); opacity: 0; }
+}
+
+/* ── GRAIN ────────────────────────────────────────────────────────
+   Static. The previous build animated a 200vw × 200vh overlay on a
+   0.6s step loop, which repainted the entire viewport several times a
+   second for an effect nobody can consciously see moving. */
+.grain {
+  position: fixed; inset: 0; z-index: 59; pointer-events: none;
+  opacity: 0.4; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/* ── LOADER ───────────────────────────────────────────────────────── */
+.loader {
+  position: fixed; inset: 0; z-index: var(--z-loader);
+  background: var(--ink); color: var(--paper);
+  display: grid; place-items: center;
+  clip-path: inset(0 0 0 0);
+}
+.loader.-out {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--d5) var(--e-inout);
+}
+.loader.-gone { display: none; }
+
+.loader__inner { position: relative; z-index: 1; display: grid; justify-items: center; gap: var(--s6); text-align: center; }
+
+/* marks orbiting behind the wordmark while the page loads */
+.loader__field { position: absolute; inset: 0; overflow: hidden; contain: strict; }
+.loader__field span {
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--w); aspect-ratio: var(--ar, 1);
+  rotate: var(--r, 0deg); will-change: transform;
+  animation: loader-orbit 9s ease-in-out var(--d, 0s) infinite alternate;
+}
+/* black ink on an ink field — invert to read, then hold it well back */
+.loader__field img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
+  filter: invert(1); opacity: 0.16;
+}
+@keyframes loader-orbit {
+  from { transform: translate3d(0, 0, 0) scale(0.94); }
+  to   { transform: translate3d(14px, -20px, 0) scale(1.06); }
+}
+/* on exit they scatter outward from the centre */
+.loader.-out .loader__field span {
+  transform: translate3d(calc((var(--x) - 50%) * 1.4), calc((var(--y) - 50%) * 1.4), 0) scale(1.3);
+  opacity: 0;
+  transition: transform var(--d5) var(--e-inout), opacity var(--d4) linear;
+  animation: none;
+}
+
+/* the wordmark is masked so the loader shares the hero's colour sheen,
+   inverted to paper because it sits on the ink field */
+.loader__mark {
+  --sheen-base: var(--paper);
+  width: min(46vw, 460px); aspect-ratio: 735 / 506;
+  opacity: 0; transform: translateY(24px);
+}
+.loader__meta {
+  display: flex; align-items: baseline; gap: var(--s4);
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-mega); text-transform: uppercase;
+  color: rgba(237, 233, 225, 0.55);
+}
+.loader__count { color: var(--paper); font-variant-numeric: tabular-nums; }
+.loader__bar {
+  width: min(46vw, 460px); height: 2px; background: rgba(237, 233, 225, 0.2);
+  overflow: hidden;
+}
+.loader__bar i {
+  display: block; height: 100%; background: var(--flare);
+  transform: scaleX(0); transform-origin: 0 50%;
+}
+
+/* ── CURTAIN (anchor transitions) ─────────────────────────────────── */
+.curtain {
+  position: fixed; inset: 0; z-index: var(--z-curtain);
+  pointer-events: none; visibility: hidden;
+  display: grid; place-items: center;
+}
+.curtain.-active { visibility: visible; }
+.curtain__lines {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+.curtain__lines g { fill: var(--ink); }
+.curtain[data-tone="flare"]    .curtain__lines g { fill: var(--flare); }
+.curtain[data-tone="carolina"] .curtain__lines g { fill: var(--carolina); }
+.curtain[data-tone="navy"]     .curtain__lines g { fill: var(--navy); }
+.curtain[data-tone="ink"]      .curtain__lines g { fill: var(--ink); }
+
+/* the wordmark stamps while the screen is covered — inverted on the
+   dark tones so it reads on any of the four */
+.curtain__stamp {
+  position: relative; z-index: 1;
+  width: min(38vw, 420px); height: auto; opacity: 0;
+  will-change: transform, opacity;
+}
+.curtain[data-tone="ink"]  .curtain__stamp,
+.curtain[data-tone="navy"] .curtain__stamp { filter: invert(1); }
+
+/* ── HEADER ───────────────────────────────────────────────────────── */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: var(--z-header);
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+  gap: var(--s5); padding: var(--s4) var(--margin);
+  transition: transform var(--d3) var(--e-out);
+  mix-blend-mode: difference; color: #fff;
+}
+.header.-hidden { transform: translateY(-115%); }
+/* difference blending makes the header legible on paper, navy, carolina
+   and ink alike without a single per-section override — but it inverts
+   the mark, so the mark opts out with its own isolation. */
+.header__mark { display: flex; align-items: center; gap: var(--s3); isolation: isolate; }
+.header__mark img { height: clamp(26px, 2.5vw, 36px); width: auto; filter: invert(1); }
+.header__mark span {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-wide); line-height: 1.3; text-transform: uppercase;
+}
+.header__nav { display: flex; justify-content: center; gap: clamp(14px, 2.2vw, 38px); }
+.header__nav a {
+  display: flex; align-items: baseline; gap: 0.55em; padding: var(--s2) 0;
+  font-family: var(--f-mono); font-size: var(--t-label); font-weight: 500;
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.header__nav a i { font-style: normal; opacity: 0.5; font-size: 0.86em; }
+.header__nav a.-active i { opacity: 1; color: var(--flare); }
+.header__meta { display: flex; align-items: center; gap: var(--s4); }
+.header__coord {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-wide); opacity: 0.7;
+}
+.header__badge {
+  font-family: var(--f-mono); font-size: var(--t-micro); font-weight: 600;
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  padding: 0.5em 0.9em; border: 1px solid currentColor; border-radius: 100px;
+}
+
+/* underline sweep — out from the right, back in from the left */
+.u-line { position: relative; }
+.u-line::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: currentColor; transform: scaleX(0); transform-origin: 100% 50%;
+  transition: transform var(--d2) var(--e-inout);
+}
+.u-line:hover::after, .u-line:focus-visible::after {
+  transform: scaleX(1); transform-origin: 0 50%;
+}
+
+/* ── CHAPTER RAIL ─────────────────────────────────────────────────
+   Fixed left spine: where you are in the book, always. */
+/* Same difference-blend trick as the header: the rail crosses paper,
+   navy, carolina and ink, and inverting against the backdrop keeps it
+   legible on all four without a single per-section override. */
+.rail {
+  position: fixed; left: var(--s4); top: 50%; z-index: var(--z-rail);
+  transform: translateY(-50%);
+  display: grid; gap: var(--s4); justify-items: center;
+  pointer-events: none; mix-blend-mode: difference; color: #fff;
+}
+.rail__track {
+  position: relative; width: 1px; height: clamp(120px, 22vh, 220px);
+  background: rgba(255, 255, 255, 0.28);
+}
+.rail__track i {
+  position: absolute; inset: 0; background: #fff;
+  transform: scaleY(0); transform-origin: 50% 0;
+  will-change: transform;
+}
+.rail__idx, .rail__name {
+  font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.rail__name { writing-mode: vertical-rl; letter-spacing: var(--tr-mega); opacity: 0.7; }
+.rail__idx { font-variant-numeric: tabular-nums; }
+
+/* ── CURSOR ───────────────────────────────────────────────────────
+   Ring follows on a lerp; the label only exists while a target asks
+   for it. Hidden entirely on touch and under reduced motion. */
+.cursor {
+  position: fixed; top: 0; left: 0; z-index: var(--z-cursor);
+  pointer-events: none; opacity: 0;
+  transition: opacity var(--d2) var(--e-out);
+  will-change: transform;
+}
+.cursor.-on { opacity: 1; }
+.cursor__ring {
+  position: absolute; top: 50%; left: 50%; width: 34px; height: 34px;
+  margin: -17px 0 0 -17px; border: 1.5px solid var(--ink); border-radius: 50%;
+  display: grid; place-items: center;
+  transition: width var(--d2) var(--e-out), height var(--d2) var(--e-out),
+              margin var(--d2) var(--e-out), background-color var(--d2) var(--e-out),
+              border-color var(--d2) var(--e-out);
+}
+.cursor__label {
+  font-family: var(--f-mono); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper);
+  opacity: 0; transform: scale(0.7);
+  transition: opacity var(--d1) var(--e-out), transform var(--d2) var(--e-snap);
+}
+.cursor.-hot .cursor__ring {
+  width: 76px; height: 76px; margin: -38px 0 0 -38px;
+  background: var(--ink); border-color: var(--ink);
+}
+.cursor.-hot .cursor__label { opacity: 1; transform: scale(1); }
+.cursor.-invert .cursor__ring { border-color: var(--paper); }
+.cursor.-invert.-hot .cursor__ring { background: var(--paper); border-color: var(--paper); }
+.cursor.-invert .cursor__label { color: var(--ink); }
+@media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+
+/* ── PAGE TOP ─────────────────────────────────────────────────────── */
+.pagetop {
+  position: fixed; right: var(--margin); bottom: var(--s6); z-index: var(--z-rail);
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--ink); color: var(--paper);
+  display: grid; place-items: center;
+  opacity: 0; visibility: hidden; transform: translateY(14px) scale(0.85);
+  transition: opacity var(--d2) var(--e-out), transform var(--d3) var(--e-out), visibility var(--d2);
+}
+.pagetop.-show { opacity: 1; visibility: visible; transform: none; }
+.pagetop:hover { background: var(--flare); }
+.pagetop svg { width: 15px; height: 15px; }

@@ -2,4 +2,6 @@ node_modules/
 dist/
 .DS_Store
 site/qa/shots/
+site/qa/out/
+.playwright-mcp/
 ZOCCON_ref/

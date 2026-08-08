@@ -1,14 +1,24 @@
-import { gsap } from 'gsap'
+import { prefersReduced } from './core/motion'
 
-/* Split helpers: letters get .glw>.gl clip-roll spans, words get
-   .wdw>.wd stagger spans. Delays carried by --gd/--wd custom props. */
+/* ═══════════════════════════════════════════════════════════════════
+   REVEALS — split text and enter-on-view.
 
-const splitLetters = (el: HTMLElement) => {
+   Deliberately CSS transitions rather than tweens: an observer flips
+   one class and the compositor does the rest, so a page with 200
+   revealed glyphs still has zero JS running during the animation.
+   Stagger rides on --gd / --wd custom properties.
+   ═══════════════════════════════════════════════════════════════════ */
+
+const STEP_LETTER = 24
+const STEP_WORD = 34
+
+const splitLetters = (host: HTMLElement) => {
   let idx = 0
   const walk = (node: Node) => {
     Array.from(node.childNodes).forEach((child) => {
       if (child.nodeType === Node.TEXT_NODE) {
         const text = child.textContent || ''
+        if (!text.trim()) return
         const frag = document.createDocumentFragment()
         for (const ch of text) {
           if (ch === ' ') {
@@ -20,95 +30,91 @@ const splitLetters = (el: HTMLElement) => {
           const g = document.createElement('span')
           g.className = 'gl'
           g.textContent = ch
-          g.style.setProperty('--gd', `${idx * 26}ms`)
+          g.style.setProperty('--gd', `${idx * STEP_LETTER}ms`)
+          /* Letters settle slightly off-true. The reference hand-kerns
+             every glyph in its headlines (100+ nth-of-type rules); this
+             is the same intent — display type that reads as set by hand
+             rather than snapped to a baseline. Kept under a degree and a
+             couple of hundredths of an em so it registers as character,
+             not as a rendering bug. */
+          g.style.setProperty('--gr', `${(Math.random() * 2 - 1).toFixed(2)}deg`)
+          g.style.setProperty('--gy', `${(Math.random() * 0.036 - 0.018).toFixed(3)}em`)
           idx++
           w.appendChild(g)
           frag.appendChild(w)
         }
         node.replaceChild(frag, child)
-      } else if (child.nodeType === Node.ELEMENT_NODE) {
+      } else if (child.nodeType === Node.ELEMENT_NODE && !(child as HTMLElement).classList.contains('glw')) {
         walk(child)
       }
     })
   }
-  walk(el)
+  walk(host)
+  return idx
 }
 
-const splitWords = (el: HTMLElement) => {
-  const text = el.textContent || ''
-  el.textContent = ''
-  text.split(/\s+/).filter(Boolean).forEach((word, i) => {
+const splitWords = (host: HTMLElement) => {
+  const text = (host.textContent || '').trim()
+  host.textContent = ''
+  const words = text.split(/\s+/).filter(Boolean)
+  words.forEach((word, i) => {
     const w = document.createElement('span')
     w.className = 'wdw'
     const g = document.createElement('span')
     g.className = 'wd'
     g.textContent = word
-    g.style.setProperty('--wd', `${Math.min(i * 30, 600)}ms`)
+    g.style.setProperty('--wd', `${Math.min(i * STEP_WORD, 520)}ms`)
     w.appendChild(g)
-    el.appendChild(w)
-    el.appendChild(document.createTextNode(' '))
+    host.appendChild(w)
+    host.appendChild(document.createTextNode(' '))
   })
+  return words.length
 }
 
 export const initReveals = () => {
-  document.querySelectorAll<HTMLElement>('[data-split-letters]').forEach(splitLetters)
-  document.querySelectorAll<HTMLElement>('[data-split-words]').forEach(splitWords)
+  /* Reduced motion: -no-motion in components.css already forces the
+     settled state, so splitting would only add DOM for nothing. */
+  if (prefersReduced()) return
+
+  const cost = new WeakMap<Element, number>()
+
+  document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
+    cost.set(el, splitLetters(el) * STEP_LETTER)
+  })
+  document.querySelectorAll<HTMLElement>('[data-split-words]').forEach((el) => {
+    cost.set(el, splitWords(el) * STEP_WORD)
+  })
 
   const io = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue
         const el = entry.target as HTMLElement
-        el.classList.add('-inview')
+        el.classList.add('-in')
         io.unobserve(el)
-        /* will-change only needs to live while the reveal transition runs;
-           afterwards -anim-done releases the compositor layers (the glyphs
-           are static from then on, so nothing repaints differently). The
-           split targets are usually DESCENDANTS of the observed element. */
-        const letterHosts: HTMLElement[] = el.hasAttribute('data-split-letters') ? [el] : []
-        el.querySelectorAll<HTMLElement>('[data-split-letters]').forEach((sp) => letterHosts.push(sp))
-        if (letterHosts.length) {
-          let maxN = 0
-          letterHosts.forEach((sp) => {
-            maxN = Math.max(maxN, sp.querySelectorAll('.gl').length)
-          })
-          gsap.delayedCall((maxN * 26 + 1100) / 1000 + 0.15, () => el.classList.add('-anim-done'))
-        }
-        if (el.hasAttribute('data-split-words') || el.querySelector('[data-split-words]')) {
-          gsap.delayedCall(0.6 + 0.85 + 0.15, () => el.classList.add('-anim-done'))
-        }
-      })
+
+        /* release the compositor layers once the roll has landed —
+           the glyphs are static from then on */
+        let longest = cost.get(el) || 0
+        el.querySelectorAll<HTMLElement>('[data-split], [data-split-words]').forEach((s) => {
+          longest = Math.max(longest, cost.get(s) || 0)
+        })
+        window.setTimeout(() => el.classList.add('-settled'), longest + 1400)
+      }
     },
-    { threshold: 0.15, rootMargin: '0px 0px -6% 0px' }
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
   )
 
-  document.querySelectorAll<HTMLElement>('[data-inview], [data-inview-head], .p-footer__word').forEach((el) => {
+  const targets = document.querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-head]')
+  targets.forEach((el) => {
+    /* siblings in the same parent cascade rather than landing together */
     const parent = el.parentElement
-    if (parent && el.hasAttribute('data-inview') && !el.hasAttribute('data-split-words')) {
-      const siblings = Array.from(parent.querySelectorAll('[data-inview]'))
-      if (siblings.length > 1) {
-        const idx = siblings.indexOf(el)
-        el.style.transitionDelay = `${Math.min(idx * 90, 450)}ms`
+    if (parent && el.hasAttribute('data-reveal')) {
+      const sibs = Array.from(parent.querySelectorAll(':scope > [data-reveal]'))
+      if (sibs.length > 1) {
+        el.style.setProperty('--rd', `${Math.min(sibs.indexOf(el) * 80, 400)}ms`)
       }
     }
     io.observe(el)
-  })
-
-  gsap.set('[data-hero]', { opacity: 0, y: 60 })
-  gsap.set('[data-hero-fade]', { opacity: 0 })
-}
-
-export const heroIntro = () => {
-  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
-  tl.to('.hero-logo[data-hero]', { opacity: 1, y: 0, duration: 1.1, rotate: -2 }, 0)
-  tl.to('.hero-tag[data-hero]', { opacity: 1, y: 0, duration: 0.9 }, 0.5)
-  tl.to('.p-hero__mascot[data-hero]', {
-    opacity: 1, y: 0, duration: 1.35, ease: 'back.out(1.35)',
-  }, 0.3)
-  tl.to('[data-hero-fade]', { opacity: 1, duration: 1 }, 0.75)
-
-  gsap.to('.p-hero__mascot', {
-    y: -16, rotation: 1.4, duration: 3.4,
-    ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.9,
   })
 }

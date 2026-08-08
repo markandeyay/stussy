@@ -1,0 +1,139 @@
+/* ═══════════════════════════════════════════════════════════════════
+   TOKENS — the single source of truth for the whole site.
+   Nothing below this file may invent a colour, size, or easing.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-n4.woff2") format("woff2"); font-weight: 400; font-style: normal;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-i4.woff2") format("woff2"); font-weight: 400; font-style: italic;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-n5.woff2") format("woff2"); font-weight: 500; font-style: normal;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-i5.woff2") format("woff2"); font-weight: 500; font-style: italic;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-n7.woff2") format("woff2"); font-weight: 700; font-style: normal;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-i7.woff2") format("woff2"); font-weight: 700; font-style: italic;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-n8.woff2") format("woff2"); font-weight: 800; font-style: normal;  font-display: swap; }
+@font-face { font-family: "futura-cond"; src: url("/fonts/futura-cond-i8.woff2") format("woff2"); font-weight: 800; font-style: italic;  font-display: swap; }
+
+:root {
+  /* ── INK & PAPER ────────────────────────────────────────────────
+     Warm neutrals, not the old flat #EBEBEB. Newsprint reads as a
+     printed object; pure grey reads as an unstyled div. */
+  --paper:      #EDE9E1;
+  --paper-warm: #E6E0D4;
+  --paper-cool: #E4E7EA;
+  --ink:        #100F0D;
+  --ink-soft:   #46423C;
+  --ink-faint:  rgba(16, 15, 13, 0.16);
+  --ink-hair:   rgba(16, 15, 13, 0.11);
+
+  /* ── BRAND ──────────────────────────────────────────────────────
+     Four voices, not nine. Section identity comes from which of these
+     owns the whole field, never from confetti accents. */
+  --carolina:    #4B9CD3;
+  --carolina-hi: #96CDEE;
+  --carolina-lo: #2C6E9E;
+  --navy:        #0C1D36;
+  --navy-soft:   #16304F;
+  --flare:       #FF4A17;   /* the one hot colour. Use it five times. */
+  --gold:        #F0B429;   /* marker highlight only */
+
+  /* ── SURFACE ROLES ──────────────────────────────────────────────
+     Sections claim a surface; components inherit from it, so a block
+     dropped on navy recolours itself without a modifier class. */
+  --surface:    var(--paper);
+  --on-surface: var(--ink);
+  --on-surface-dim: var(--ink-soft);
+  --rule:       var(--ink-hair);
+  --accent:     var(--carolina);
+
+  /* translucent paper wash — lets the atmosphere layer ghost through
+     printed matter instead of hiding it entirely */
+  --wash: rgba(237, 233, 225, 0.88);
+
+  /* ── TYPE ───────────────────────────────────────────────────────── */
+  /* the handstyle mark, referenced as a mask by .sheen — declared here
+     so Vite rewrites it for `base` like any other CSS url() */
+  --mark: url("/assets/trapwhip-script.png");
+
+  --f-display: "futura-cond", Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Narrow", sans-serif;
+  --f-text:    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-mono:    ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Roboto Mono", monospace;
+
+  /* fluid scale — a 1.28 ratio at the small end opening to 1.5 at the top,
+     so display type gets dramatic on desktop without shredding mobile */
+  --t-mega:  clamp(72px, 15.5vw, 260px);
+  --t-d1:    clamp(52px, 10.5vw, 172px);
+  --t-d2:    clamp(34px, 5.4vw,  92px);
+  --t-d3:    clamp(26px, 3.4vw,  54px);
+  --t-lede:  clamp(21px, 2.9vw,  46px);
+  --t-body:  clamp(15px, 1.02vw, 18px);
+  --t-small: clamp(13px, 0.86vw, 15px);
+  --t-label: clamp(10px, 0.72vw, 12px);
+  --t-micro: clamp(9px,  0.62vw, 11px);
+
+  --tr-tight:  -0.022em;   /* display */
+  --tr-normal:  0.01em;
+  --tr-wide:    0.16em;    /* labels */
+  --tr-mega:    0.30em;    /* eyebrows, rails */
+
+  --lh-solid: 0.84;
+  --lh-tight: 1.06;
+  --lh-body:  1.62;
+
+  /* ── SPACE ──────────────────────────────────────────────────────── */
+  --s1: 4px;   --s2: 8px;   --s3: 12px;  --s4: 16px;
+  --s5: 24px;  --s6: 32px;  --s7: 48px;  --s8: 64px;
+  --s9: 96px;  --s10: 128px; --s11: 176px;
+
+  --margin: clamp(18px, 4.2vw, 76px);
+  --gutter: clamp(12px, 1.4vw, 26px);
+  --section-y: clamp(80px, 12vh, 168px);
+
+  /* ── MOTION ─────────────────────────────────────────────────────
+     One easing family. --e-out does 80% of the work; the others exist
+     for curtains (--e-inout) and things that should feel stamped
+     (--e-snap). Anything not on this list is a bug. */
+  --e-out:   cubic-bezier(0.16, 1, 0.30, 1);
+  --e-inout: cubic-bezier(0.76, 0, 0.24, 1);
+  --e-soft:  cubic-bezier(0.22, 0.61, 0.36, 1);
+  --e-snap:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --d1: 160ms;  /* hover states, cursors */
+  --d2: 320ms;  /* small reveals */
+  --d3: 560ms;  /* card / block reveals */
+  --d4: 900ms;  /* display type */
+  --d5: 1300ms; /* curtains */
+
+  /* ── DEPTH ──────────────────────────────────────────────────────
+     Reserved z-bands, so nothing ever needs a magic 9999. */
+  --z-atmos:   0;
+  --z-content: 2;
+  --z-band:    3;
+  --z-rail:    40;
+  --z-front:   60;
+  --z-header:  100;
+  --z-cursor:  200;
+  --z-curtain: 300;
+  --z-loader:  400;
+}
+
+/* Section surface presets. A section sets one class and every child
+   — rules, labels, arrows, captions — recolours through the roles. */
+.t-paper {
+  --surface: var(--paper);      --on-surface: var(--ink);
+  --on-surface-dim: var(--ink-soft); --rule: var(--ink-hair);
+  --wash: rgba(237, 233, 225, 0.88);
+}
+.t-navy {
+  --surface: var(--navy);       --on-surface: #F2F5F8;
+  --on-surface-dim: var(--carolina-hi); --rule: rgba(255, 255, 255, 0.16);
+  --accent: var(--carolina-hi); --wash: var(--navy);
+}
+.t-carolina {
+  --surface: var(--carolina);   --on-surface: var(--navy);
+  --on-surface-dim: rgba(12, 29, 54, 0.66); --rule: rgba(12, 29, 54, 0.22);
+  --accent: var(--navy);        --wash: var(--carolina);
+}
+.t-ink {
+  --surface: var(--ink);        --on-surface: var(--paper);
+  --on-surface-dim: rgba(237, 233, 225, 0.56); --rule: rgba(237, 233, 225, 0.16);
+  --accent: var(--flare);       --wash: var(--ink);
+}

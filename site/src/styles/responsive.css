@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — the fluid tokens carry most of the range; these are the
+   points where the *shape* has to change, not just the size.
+   Every pinned/scrubbed behaviour is desktop-only (see core/motion.ts),
+   so the small-screen layouts here are the settled states.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1180px) {
+  .drop__grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--s7); }
+  .tribe__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .store__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .store__ram  { grid-column: 1 / -1; justify-self: center; }
+}
+
+@media (max-width: 900px) {
+  .header { grid-template-columns: auto auto; }
+  .header__nav { display: none; }
+  .rail { display: none; }
+  .u-hide-sp { display: none !important; }
+
+  .hero { padding-block-start: calc(var(--s10) + 2vw); }
+  .hero__stage { grid-template-columns: 1fr; gap: var(--s6); }
+  .hero__mark { width: min(84vw, 520px); }
+  .hero__mascot { justify-self: end; width: min(58vw, 340px); }
+  .hero__side { display: none; }
+
+  .sec__title { gap: var(--s5); }
+  .sec__meta { text-align: left; }
+  /* the ghost numeral exists to fill dead centre space in a wide head —
+     in a stacked head it is just another 150px block to scroll past */
+  .sec__no { display: none; }
+
+  .story__grid { grid-template-columns: 1fr; gap: var(--s7); }
+  .story__pin { overflow: visible; }
+  .story__ghost { font-size: 38vw; opacity: 0.3; }
+  .story__media .badge { top: -6%; left: auto; right: -4%; }
+
+  /* the horizontal gallery becomes a vertical one — no pin, no scrub */
+  .lookbook__track { flex-direction: column; width: auto; gap: var(--s7); }
+  .lookbook__track .shot { width: 100%; }
+  .lookbook__track .shot:nth-child(even) { margin-block-start: 0; }
+  .lookbook__end { width: 100%; padding-block: var(--s7); }
+  .lookbook__hud { display: none; }
+
+  .band { transform: rotate(var(--rot, -2deg)) scale(1.12); }
+  .band em, .band b, .band .dot { font-size: clamp(26px, 8vw, 46px); }
+
+  .footer__cols { gap: var(--s7); }
+  .footer__meta { flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .drop__grid  { grid-template-columns: 1fr; }
+  .tribe__grid { grid-template-columns: 1fr; }
+  .store__grid { grid-template-columns: 1fr; }
+  .store__ram  { justify-self: start; }
+  .hero__mascot { width: min(72vw, 320px); }
+  .hero__foot { gap: var(--s4); }
+  /* four tracked-out labels plus flexible rules cannot share 390px —
+     the masthead keeps its first and last beat and drops the middle */
+  .hero__eyebrow > :nth-child(n+3):nth-child(-n+6) { display: none; }
+  .pagetop { right: var(--s4); bottom: var(--s4); width: 46px; height: 46px; }
+  .tribe-card__txt { padding-inline-end: 3.4em; }
+}
+
+/* ── REDUCED MOTION LAYOUT ────────────────────────────────────────
+   The horizontal gallery is driven entirely by the pinned scrub. With
+   motion off there is no scrub, so shots 04–06 would sit off the right
+   edge of a clipped container with no way to reach them. Reflowing to
+   a grid keeps every photograph reachable. */
+.-no-motion .lookbook__pin { min-height: 0; padding-block: 0; }
+.-no-motion .lookbook__track {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: auto; gap: var(--s8) var(--gutter);
+}
+.-no-motion .lookbook__track .shot { width: auto; margin-block-start: 0; }
+.-no-motion .lookbook__end { width: auto; align-self: center; padding-block: var(--s7); }
+.-no-motion .lookbook__hud { display: none; }
+
+@media (max-width: 900px) {
+  .-no-motion .lookbook__track { grid-template-columns: 1fr; }
+}

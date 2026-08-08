@@ -3,433 +3,555 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>STÜSSY CHAPEL HILL CHAPTER</title>
-  <meta name="description" content="Stüssy Chapel Hill Chapter. The Southern Part of Heaven. International Stüssy Tribe meets Tar Heel Nation. Everything is sold out.">
+  <title>Stüssy Chapel Hill Chapter — Southern Part of Heaven</title>
+  <meta name="description" content="Stüssy Chapel Hill Chapter. Chapter No. 26 on Franklin Street. International Stüssy Tribe meets Tar Heel Nation. Everything is sold out.">
+  <meta name="theme-color" content="#EDE9E1">
+
+  <meta property="og:title" content="Stüssy Chapel Hill Chapter">
+  <meta property="og:description" content="Chapter No. 26 — 178 E Franklin St. The Southern Part of Heaven.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://williethewhale.github.io/Stussy/">
+  <meta property="og:image" content="https://williethewhale.github.io/Stussy/assets/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A shepherd leads two rams across rolling hills under a Carolina blue sky — Stüssy Chapel Hill Chapter No. 26">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stüssy Chapel Hill Chapter">
+  <meta name="twitter:description" content="Chapter No. 26 — 178 E Franklin St. The Southern Part of Heaven.">
+  <meta name="twitter:image" content="https://williethewhale.github.io/Stussy/assets/og-image.jpg">
 
   <link rel="preload" href="/fonts/futura-cond-n8.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/futura-cond-i8.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/futura-cond-n7.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/trapwhip-script.png" as="image">
 
   <link rel="icon" type="image/png" href="/favicon.png">
   <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
 
-  <!-- SVG DEFS: gooey filter for transition lines (ported from ZOCCON #top-lines-gooey) -->
-  <svg class="svg-defs" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <a class="u-skip" href="#hero">Skip to content</a>
+
+  <!-- icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
-      <filter id="top-lines-gooey">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 19 -9" result="goo"></feColorMatrix>
-        <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
-      </filter>
+      <symbol id="i-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M2.5 8h10.2M9 4l4 4-4 4"></path>
+      </symbol>
+      <symbol id="i-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M8 13.5V3.2M4 7.2l4-4 4 4"></path>
+      </symbol>
+
     </defs>
   </svg>
 
-  <!-- LOADER (ZOCCON p-top-loading: black, catch, rotateY flip letters, clip-path exit) -->
-  <section class="p-top-loading" id="loader">
-    <div class="p-top-loading__bg"></div>
-    <div class="p-top-loading__inner">
-      <div class="p-top-loading__catch" id="loader-catch">
-        <img class="catch-logo" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506">
-        <img class="catch-ram" src="/assets/doodles/ram.png" alt="" width="120" height="120">
-        <span class="loading" id="loading-word"><i>N</i><i>O</i><i>W</i><i>&nbsp;</i><i>L</i><i>O</i><i>A</i><i>D</i><i>I</i><i>N</i><i>G</i></span>
-      </div>
+  <!-- ══ LOADER ══════════════════════════════════════════════════ -->
+  <div class="loader" id="loader">
+    <!-- marks orbiting behind the mark while it loads, then scattering
+         outward as the field lifts -->
+    <div class="loader__field" id="loader-field" aria-hidden="true">
+      <span style="--x:11%;--y:17%;--w:9vw;--ar:0.51;--r:-16deg;--d:0s"><img src="/assets/marks/crown.webp" alt=""></span>
+      <span style="--x:81%;--y:13%;--w:6vw;--ar:1.17;--r:13deg;--d:-2.4s"><img src="/assets/marks/ball.webp" alt=""></span>
+      <span style="--x:7%;--y:70%;--w:4.6vw;--ar:0.48;--r:10deg;--d:-4.1s"><img src="/assets/marks/dice.webp" alt=""></span>
+      <span style="--x:87%;--y:66%;--w:5.4vw;--ar:0.9;--r:-12deg;--d:-1.3s"><img src="/assets/marks/skull.webp" alt=""></span>
+      <span style="--x:45%;--y:6%;--w:5vw;--ar:1.17;--r:20deg;--d:-3.2s"><img src="/assets/marks/ball.webp" alt=""></span>
+      <span style="--x:64%;--y:82%;--w:8vw;--ar:0.51;--r:-6deg;--d:-5.5s"><img src="/assets/marks/crown.webp" alt=""></span>
+      <span style="--x:25%;--y:86%;--w:5vw;--ar:0.9;--r:16deg;--d:-0.8s"><img src="/assets/marks/skull.webp" alt=""></span>
+      <span style="--x:93%;--y:38%;--w:4.2vw;--ar:0.48;--r:-22deg;--d:-6.2s"><img src="/assets/marks/dice.webp" alt=""></span>
     </div>
-  </section>
+    <div class="loader__inner">
+      <span class="loader__mark sheen" id="loader-mark"><i></i></span>
+      <div class="loader__bar"><i id="loader-fill"></i></div>
+      <p class="loader__meta">
+        <span>Chapter No. 26</span>
+        <span class="loader__count" id="loader-count">000</span>
+      </p>
+    </div>
+  </div>
 
-  <!-- PAGE TRANSITION (ZOCCON p-transition: 24 gooey rects, random widths/eases/color modes) -->
-  <div class="p-transition" id="transition" data-color-mode="1">
-    <svg class="lines" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2056 1105" preserveAspectRatio="none">
-      <g id="transition-g"></g>
+  <!-- ══ CURTAIN (anchor transitions) ════════════════════════════
+       Gooey stripe wipe: 26 rects of randomised width run under a
+       blur + contrast matrix so their leading edges fuse into one
+       liquid front instead of a row of sliding bars. -->
+  <div class="curtain" id="curtain" data-tone="flare" aria-hidden="true">
+    <!-- viewBox is 0-100 in both axes so rect coordinates ARE percentages;
+         preserveAspectRatio="none" stretches it over any viewport -->
+    <svg class="curtain__lines" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs>
+        <filter id="curtain-goo" x="-8%" y="-8%" width="116%" height="116%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.1" result="blur"/>
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo"/>
+          <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+        </filter>
+      </defs>
+      <g id="curtain-g" filter="url(#curtain-goo)"></g>
     </svg>
+    <img class="curtain__stamp" id="curtain-stamp" src="/assets/trapwhip-script.png" alt="" width="735" height="506">
   </div>
 
-  <!-- TYPO BACK LAYER (ZOCCON p-typo-back: canvas streams + crossing charas) -->
-  <div class="p-typo-back" id="typo-back" aria-hidden="true">
-    <canvas id="typo-back-canvas"></canvas>
-    <div class="chara chara_8ball"><img src="/assets/doodles/8ball.png" alt="" width="520" height="520"></div>
-    <div class="chara chara_crown"><img src="/assets/doodles/crown.png" alt="" width="520" height="520"></div>
-    <div class="chara chara_dice"><img src="/assets/doodles/dice.png" alt="" width="520" height="520"></div>
-    <div class="chara chara_ram"><img src="/assets/doodles/ram.png" alt="" width="520" height="520"></div>
-  </div>
+  <!-- ══ ATMOSPHERE (lanes built in fx/atmosphere.ts) ════════════ -->
+  <div class="atmos" id="atmos" aria-hidden="true"></div>
 
-  <!-- BACKGROUND GRID HAIRLINES -->
-  <div class="bg-lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <!-- ══ GRAIN ═══════════════════════════════════════════════════ -->
+  <div class="grain" aria-hidden="true"></div>
 
-  <!-- NOISE OVERLAY -->
-  <div class="noise" aria-hidden="true"></div>
-
-  <!-- HEADER -->
-  <header class="p-header" id="header">
-    <a class="p-header__logo" href="#top" data-nav-link>
-      <img class="logo-mark" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506">
-      <span class="logo-chapter">CHAPEL HILL<br>CHAPTER</span>
+  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+  <header class="header" id="header">
+    <a class="header__mark" href="#hero" data-nav>
+      <img src="/assets/trapwhip-script.png" alt="Stüssy Chapel Hill" width="735" height="506">
+      <span>Chapel Hill<br>Chapter</span>
     </a>
-    <nav class="p-header__nav">
-      <a href="#story" data-nav-link data-underline><b>01</b>CHAPTER</a>
-      <a href="#lookbook" data-nav-link data-underline><b>02</b>LOOKBOOK</a>
-      <a href="#drop" data-nav-link data-underline><b>03</b>THE DROP</a>
-      <a href="#tribe" data-nav-link data-underline><b>04</b>TRIBE</a>
-      <a href="#store" data-nav-link data-underline><b>05</b>STORE</a>
+    <nav class="header__nav" aria-label="Sections">
+      <a href="#story"    data-nav data-navlink="story"    class="u-line"><i>01</i>Chapter</a>
+      <a href="#lookbook" data-nav data-navlink="lookbook" class="u-line"><i>02</i>Lookbook</a>
+      <a href="#drop"     data-nav data-navlink="drop"     class="u-line"><i>03</i>Drop</a>
+      <a href="#tribe"    data-nav data-navlink="tribe"    class="u-line"><i>04</i>Tribe</a>
+      <a href="#store"    data-nav data-navlink="store"    class="u-line"><i>05</i>Store</a>
     </nav>
-    <div class="p-header__meta">
-      <span class="header-coord u-hide-sp">35.9132°N 79.0558°W</span>
-      <span class="header-badge">SOLD OUT</span>
+    <div class="header__meta">
+      <span class="header__badge">Sold Out</span>
     </div>
   </header>
 
-  <main id="top">
+  <!-- ══ CHAPTER RAIL ════════════════════════════════════════════ -->
+  <aside class="rail" id="rail" aria-hidden="true">
+    <span class="rail__idx" id="rail-idx">00</span>
+    <span class="rail__track"><i id="rail-fill"></i></span>
+    <span class="rail__name" id="rail-name">Cover</span>
+  </aside>
 
-    <!-- HERO -->
-    <section class="p-hero" id="hero">
-      <div class="p-hero__eyebrow" data-hero-fade>
-        <span>EST. 2026</span><span class="dot">★</span>
-        <span>FRANKLIN ST, NC</span><span class="dot">★</span>
-        <span>CHAPTER EXCLUSIVE</span>
+  <!-- ══ CURSOR ══════════════════════════════════════════════════ -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__ring"><span class="cursor__label" id="cursor-label"></span></div>
+  </div>
+
+  <main>
+
+    <!-- ══ HERO ══════════════════════════════════════════════════ -->
+    <section class="hero t-paper" id="hero" data-scene="hero" data-name="Cover" data-idx="00">
+      <div class="hero__eyebrow" data-hero-fade>
+        <span>Est. 2026</span><i class="ln"></i>
+        <span>178 E Franklin St</span><i class="ln"></i>
+        <span>Chapel Hill, NC</span><i class="ln"></i>
+        <span class="hot">Chapter No. 26</span>
       </div>
 
-      <h1 class="p-hero__title" aria-label="Trapwhip Chapel Hill Chapter">
-        <img class="hero-logo" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506" data-hero>
-        <span class="hero-tag" data-hero><b>CHAPTER</b><span class="dot">★</span><span class="ja">チャペルヒル店</span></span>
-      </h1>
+      <div class="hero__stage">
+        <h1 class="hero__lockup">
+          <span class="u-sr">Stüssy Chapel Hill Chapter</span>
+          <!-- the mark is masked, not drawn, so a slow colour sheen can
+               travel through the letterforms (reference: kf-logo-gradient) -->
+          <span class="hero__mark sheen" id="hero-mark" aria-hidden="true"><i></i></span>
+          <span class="hero__tag" data-hero>
+            <span>Chapter</span><span class="hot">★</span><span class="jp">チャペルヒル店</span>
+          </span>
+        </h1>
 
-      <div class="p-hero__mascot" data-hero>
-        <div class="c-gyre" data-gyre>
-          <div class="c-gyre__inner">
-            <img class="c-gyre__img" src="/assets/mascot/ramsey-dither.png" alt="RAMSEY — the Chapel Hill Chapter ram mascot" width="1048" height="1029" fetchpriority="high">
-          </div>
-          <div class="c-gyre__arrow"><div></div></div>
+        <div class="hero__mascot" data-hero>
+          <img src="/assets/mascot/ramsey-dither.png" alt="Ramsey — the Chapel Hill Chapter ram mascot" width="1048" height="1029" fetchpriority="high">
+          <span class="badge" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <defs><path id="badge-hero" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"></path></defs>
+              <text><textPath href="#badge-hero">Southern Part of Heaven ★ Est. 2026 ★ Chapel Hill Chapter ★ </textPath></text>
+            </svg>
+            <img src="/assets/marks/ball.webp" alt="" width="56" height="56">
+          </span>
         </div>
       </div>
 
-      <div class="p-hero__side u-hide-sp" aria-hidden="true">
-        <span>INTERNATIONAL <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> TRIBE — EST. 2026 —</span>
+      <div class="hero__foot" data-hero-fade>
+        <span class="hero__scroll"><i></i>Scroll</span>
+        <span class="u-hide-sp">FW26 “Southern Part of Heaven” — Stock 0/4 — Raffle Closed</span>
       </div>
 
-      <div class="p-hero__foot" data-hero-fade>
-        <span class="hero-scroll">SCROLL ↓</span>
-        <span class="hero-meta u-hide-sp">FW26 “SOUTHERN PART OF HEAVEN” ★ STOCK 0/4 ★ RAFFLE CLOSED</span>
-      </div>
-      <div class="p-hero__grad" aria-hidden="true"></div>
+      <span class="hero__side u-hide-sp" aria-hidden="true">International Stüssy Tribe — Carolina Chapter</span>
     </section>
 
-    <!-- MARQUEE 1 -->
-    <div class="c-marquee" data-type="carolina" data-marquee aria-hidden="true">
-      <div class="c-marquee__inner">
-        <div class="marquee-set">
-          <div class="marquee-single">
-            <p class="bold" data-underline>CHAPEL HILL CHAPTER</p><span class="arrow"><div></div></span>
-            <p class="normal">EST. 2026</p><span class="arrow"><div></div></span>
-            <p class="bold" data-underline>FRANKLIN ST</p><span class="arrow"><div></div></span>
-            <p class="normal">TAR HEEL NATION</p><span class="arrow"><div></div></span>
-          </div>
+    <!-- ══ BAND 01 ═══════════════════════════════════════════════ -->
+    <div class="band band--flare" data-band style="--rot:-2.4deg" aria-hidden="true">
+      <div class="band__row" data-band-row data-speed="1">
+        <div class="band__set" data-band-set>
+          <b>Chapel Hill Chapter</b><span class="dot"></span>
+          <em>Est. 2026</em><span class="dot"></span>
+          <b>Franklin Street</b><span class="dot"></span>
+          <em>Tar Heel Nation</em><span class="dot"></span>
+        </div>
+      </div>
+      <div class="band__row" data-band-row data-speed="-0.68">
+        <div class="band__set" data-band-set>
+          <em>Southern Part of Heaven</em><span class="dot"></span>
+          <b>Chapter No. 26</b><span class="dot"></span>
+          <em>8-Ball Never Lies</em><span class="dot"></span>
+          <b>GDTBATH</b><span class="dot"></span>
         </div>
       </div>
     </div>
 
-    <!-- CHAPTER STORY -->
-    <section class="p-story p-section" id="story">
-      <div class="sec-head" data-inview-head>
-        <h2 class="sec-head__title"><span class="idx">SEC.01</span><span class="tt" data-split-letters>CHAPTER<i>STORY</i></span></h2>
-        <p class="sec-head__meta">章 — CHAPTER<br>35.9132°N, 79.0558°W</p>
+    <!-- ══ SEC 01 — CHAPTER STORY ════════════════════════════════ -->
+    <section class="sec t-paper" id="story" data-scene="story" data-name="Chapter" data-idx="01">
+      <div class="sec__head" data-reveal-head>
+        <div class="sec__rule">
+          <span class="n">Sec. 01</span>
+          <span class="ln"></span>
+          <span class="k">章 — Chapter</span>
+        </div>
+        <div class="sec__title">
+          <h2 class="sec__tt" data-split>Chapter<em>Story</em></h2>
+          <span class="sec__no" aria-hidden="true">01</span>
+          <p class="sec__meta">Two floors above<br>the record shop</p>
+        </div>
       </div>
-      <div class="p-story__pin" id="story-pin">
-        <div class="story-bgword" aria-hidden="true">HEAVEN</div>
-        <div class="p-story__grid">
-          <div class="p-story__copy">
-            <p class="lede">
-              <span class="lnw"><span class="ln" data-ln>A NEW CHAPTER IN THE</span></span><br>
-              <span class="lnw"><span class="ln ln--mark" data-ln>SOUTHERN PART OF HEAVEN.</span></span>
+
+      <div class="story__pin" id="story-pin">
+        <div class="story__ghost" aria-hidden="true">Heaven</div>
+        <div class="story__grid">
+          <div class="story__copy">
+            <p class="story__lede">
+              <span class="lnw"><span class="ln" data-ln>A new chapter in the</span></span>
+              <span class="lnw"><span class="ln ln--mark" data-ln>Southern Part of Heaven.</span></span>
             </p>
-            <p class="body" data-body="l">International <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> Tribe meets Tar Heel Nation. Surf-shop soul, Carolina blue blood. The 8-ball reads the argyle and the argyle reads the 8-ball. This is not a store — it's a chapter, written in marker on the bricks of Franklin Street.</p>
-            <p class="body" data-body="r">One floor above the record shop. Wood fixtures, mirrored walls, a tiki totem wearing a mortarboard. Exclusive chapter product that does not exist and is already gone.</p>
-            <dl class="fact-table">
-              <div data-fact="l"><dt>ADDRESS</dt><dd>178 E FRANKLIN ST, CHAPEL HILL, NC 27516</dd></div>
-              <div data-fact="r"><dt>FLOOR</dt><dd>2F — ABOVE THE RECORD SHOP</dd></div>
-              <div data-fact="l"><dt>OPENED</dt><dd>FALL 2026</dd></div>
-              <div data-fact="r"><dt>FIXTURES</dt><dd>WOOD / MIRRORS / 1 TIKI TOTEM</dd></div>
+            <p class="story__body" data-body="l">
+              International <img class="mark-inline" src="/assets/trapwhip-script.png" alt="Stüssy"> Tribe meets Tar Heel Nation.
+              Surf-shop soul, Carolina blue blood. The 8-ball reads the argyle and the argyle
+              reads the 8-ball. This is not a store — it is a chapter, written in marker on the
+              bricks of Franklin Street.
+            </p>
+            <p class="story__body" data-body="r">
+              One floor above the record shop. Timber fixtures, mirrored walls, a tiki totem
+              wearing a mortarboard. Chapter product that does not exist and is already gone.
+            </p>
+            <dl class="facts">
+              <div data-fact="l"><dt>Address</dt><dd>178 E Franklin St, NC 27516</dd></div>
+              <div data-fact="r"><dt>Floor</dt><dd>2F — above the record shop</dd></div>
+              <div data-fact="l"><dt>Opened</dt><dd>Fall 2026</dd></div>
+              <div data-fact="r"><dt>Fixtures</dt><dd>Timber / mirrors / one tiki totem</dd></div>
             </dl>
           </div>
-          <div class="p-story__img" data-story-img>
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner">
-                <img class="c-gyre__img -clip" src="/assets/lookbook/00_porch.jpg" alt="Chapter crew on the porch of 178 E Franklin" width="1400" height="933">
+
+          <div class="story__media" data-story-media>
+            <figure class="media" data-media data-cursor="00" data-shape="arch" data-plate="gold" style="--frame-rot:-1.2deg;--plate-x:-18px;--plate-y:16px">
+              <div class="media__frame">
+                <img class="media__img" src="/assets/lookbook/00_porch.jpg" alt="Chapter crew on the porch of 178 E Franklin Street" width="1400" height="933">
               </div>
-              <div class="c-gyre__arrow"><div></div></div>
-              <p>CHAPTER CREW — PORCH OF 178 E FRANKLIN ★ FW26</p>
-            </div>
-            <div class="rotating-badge" aria-hidden="true" data-badge>
+              <figcaption class="media__cap"><span class="n">00</span>Chapter crew, 178 E Franklin</figcaption>
+            </figure>
+            <span class="badge" data-badge aria-hidden="true">
               <svg viewBox="0 0 200 200">
-                <defs><path id="badge-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path></defs>
-                <text><textPath href="#badge-circle">STÜSSY CHAPEL HILL CHAPTER ★ EST. 2026 ★ SOUTHERN PART OF HEAVEN ★ </textPath></text>
+                <defs><path id="badge-story" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"></path></defs>
+                <text><textPath href="#badge-story">Chapel Hill Chapter ★ Est. 2026 ★ Southern Part of Heaven ★ </textPath></text>
               </svg>
-              <img src="/assets/doodles/8ball.png" alt="" width="56" height="56">
-            </div>
+              <img src="/assets/marks/ball.webp" alt="" width="56" height="56">
+            </span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- LOOKBOOK (pinned horizontal scroll) -->
-    <section class="p-lookbook p-section" id="lookbook">
-      <div class="sec-head" data-inview-head>
-        <h2 class="sec-head__title"><span class="idx">SEC.02</span><span class="tt" data-split-letters>LOOK<i>BOOK</i></span></h2>
-        <p class="sec-head__meta">FW26 “SOUTHERN PART OF HEAVEN”<br>SHOT ON 35MM — KODAK 400</p>
+    <!-- ══ SEC 02 — LOOKBOOK ═════════════════════════════════════ -->
+    <section class="sec lookbook t-navy" id="lookbook" data-scene="lookbook" data-name="Lookbook" data-idx="02">
+      <div class="sec__head" data-reveal-head>
+        <div class="sec__rule">
+          <span class="n">Sec. 02</span>
+          <span class="ln"></span>
+          <span class="k">記録 — Lookbook</span>
+        </div>
+        <div class="sec__title">
+          <h2 class="sec__tt" data-split>Look<em>Book</em></h2>
+          <span class="sec__no" aria-hidden="true">02</span>
+          <p class="sec__meta">FW26 “Southern Part of Heaven”<br>Shot on 35mm — Kodak 400</p>
+        </div>
       </div>
-      <div class="p-lookbook__pin" id="lookbook-pin">
-        <div class="p-lookbook__track" id="lookbook-track">
-          <figure class="lb" data-lb-parallax="-8">
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/01_oldwell.jpg" alt="Argyle mohair cardigan at the Old Well"></div>
-              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+
+      <div class="lookbook__pin" id="lookbook-pin">
+        <div class="lookbook__track" id="lookbook-track">
+          <figure class="media shot" data-media data-cursor="01" data-shape="arch" data-plate="caro" style="--frame-rot:1.4deg;--plate-x:16px;--plate-y:18px" data-drift="-8">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/lookbook/01_oldwell.jpg" alt="Argyle mohair cardigan at the Old Well" width="1050" height="1400">
             </div>
-            <figcaption><b>01</b>OLD WELL, DAWN<i>35.9120°N</i></figcaption>
+            <figcaption class="media__cap"><span class="n">01</span>Old Well, dawn</figcaption>
           </figure>
-          <figure class="lb" data-lb-parallax="10">
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/02_belltower.jpg" alt="Nylon track set crossing the Bell Tower lawn"></div>
-              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+          <figure class="media shot" data-media data-cursor="02" data-shape="leaf" data-plate="flare" style="--frame-rot:-1.8deg;--plate-x:-16px;--plate-y:16px" data-drift="10">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/lookbook/02_belltower.jpg" alt="Nylon track set crossing the Bell Tower lawn" width="1050" height="1400">
             </div>
-            <figcaption><b>02</b>BELL TOWER, MIDDAY<i>35.9147°N</i></figcaption>
+            <figcaption class="media__cap"><span class="n">02</span>Bell Tower, midday</figcaption>
           </figure>
-          <figure class="lb" data-lb-parallax="-6">
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/03_recordshop.jpg" alt="Flannel over hoodie, digging crates"></div>
-              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+          <figure class="media shot" data-media data-cursor="03" data-plate="gold" style="--frame-rot:0.9deg;--plate-x:14px;--plate-y:-16px" data-drift="-6">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/lookbook/03_recordshop.jpg" alt="Flannel over hoodie, digging crates in the record shop" width="1050" height="1400">
             </div>
-            <figcaption><b>03</b>THE RECORD SHOP<i>178 E FRANKLIN</i></figcaption>
+            <figcaption class="media__cap"><span class="n">03</span>The record shop</figcaption>
           </figure>
-          <figure class="lb" data-lb-parallax="12">
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/04_court.jpg" alt="Mesh jersey jumpshot at dusk"></div>
-              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+          <figure class="media shot" data-media data-cursor="04" data-shape="oval" data-plate="caro" style="--frame-rot:-1.1deg;--plate-x:0px;--plate-y:20px" data-drift="12">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/lookbook/04_court.jpg" alt="Mesh jersey jumpshot at dusk" width="1050" height="1400">
             </div>
-            <figcaption><b>04</b>THE COURT, DUSK<i>WOOLLEN GYM</i></figcaption>
+            <figcaption class="media__cap"><span class="n">04</span>The court, dusk</figcaption>
           </figure>
-          <figure class="lb" data-lb-parallax="-10">
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/05_rooftop.jpg" alt="8-ball knit on the dorm roof"></div>
-              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+          <figure class="media shot" data-media data-cursor="05" data-shape="leaf" data-plate="flare" style="--frame-rot:1.6deg;--plate-x:18px;--plate-y:14px" data-drift="-10">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/lookbook/05_rooftop.jpg" alt="8-ball knit on the dorm roof at golden hour" width="1050" height="1400">
             </div>
-            <figcaption><b>05</b>DORM ROOF, GOLDEN<i>SOUTH CAMPUS</i></figcaption>
+            <figcaption class="media__cap"><span class="n">05</span>Dorm roof, golden</figcaption>
           </figure>
-          <figure class="lb" data-lb-parallax="8">
-            <div class="c-gyre" data-gyre>
-              <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/lookbook/06_franklin_night.jpg" alt="Overcoat and blue scarf, Franklin at night"></div>
-              <div class="c-gyre__arrow" data-size="M"><div></div></div>
+          <figure class="media shot" data-media data-cursor="06" data-shape="arch" data-plate="gold" style="--frame-rot:-1.4deg;--plate-x:-14px;--plate-y:18px" data-drift="8">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/lookbook/06_franklin_night.jpg" alt="Overcoat and blue scarf on Franklin Street at night" width="1050" height="1400">
             </div>
-            <figcaption><b>06</b>FRANKLIN ST, NIGHT<i>35.9130°N</i></figcaption>
+            <figcaption class="media__cap"><span class="n">06</span>Franklin St, night</figcaption>
           </figure>
-          <div class="lb-end">
-            <p class="lb-end__script">fin.</p>
-            <p class="lb-end__txt">FW26<br>SOUTHERN PART<br>OF HEAVEN</p>
+          <div class="lookbook__end">
+            <p class="big">End of<br>Roll</p>
+            <p class="sub">FW26<br>Southern Part<br>of Heaven</p>
           </div>
         </div>
-        <div class="p-lookbook__progress" aria-hidden="true">
-          <span id="lb-count">01</span><em>/</em><span>06</span>
-          <i class="lb-bar"><i id="lb-bar-fill"></i></i>
+
+        <div class="lookbook__hud" aria-hidden="true">
+          <span class="cur" id="lb-cur">01</span>
+          <span class="tot">/ 06</span>
+          <span class="lookbook__bar"><i id="lb-fill"></i></span>
+          <span class="lookbook__hint">Keep scrolling →</span>
         </div>
       </div>
     </section>
 
-    <!-- MARQUEE 2 -->
-    <div class="c-marquee" data-type="navy" data-marquee aria-hidden="true">
-      <div class="c-marquee__inner">
-        <div class="marquee-set">
-          <div class="marquee-single">
-            <p class="bold" data-underline>THE DROP</p><span class="arrow"><div></div></span>
-            <p class="normal">ALL GONE</p><span class="arrow"><div></div></span>
-            <p class="bold" data-underline>SOLD OUT</p><span class="arrow"><div></div></span>
-            <p class="normal">FOREVER</p><span class="arrow"><div></div></span>
-          </div>
+    <!-- ══ BAND 02 ═══════════════════════════════════════════════ -->
+    <div class="band band--paper" data-band style="--rot:1.8deg" aria-hidden="true">
+      <div class="band__row" data-band-row data-speed="-1">
+        <div class="band__set" data-band-set>
+          <b>The Drop</b><span class="dot"></span>
+          <em>All Gone</em><span class="dot"></span>
+          <b>Sold Out</b><span class="dot"></span>
+          <em>Forever</em><span class="dot"></span>
         </div>
       </div>
     </div>
 
-    <!-- THE DROP -->
-    <section class="p-drop p-section" id="drop">
-      <div class="sec-head" data-inview-head>
-        <h2 class="sec-head__title"><span class="idx">SEC.03</span><span class="tt" data-split-letters>THE<i>DROP</i></span></h2>
-        <p class="sec-head__meta">CHAPTER EXCLUSIVES<br>GONE BEFORE YOU GOT HERE</p>
+    <!-- ══ SEC 03 — THE DROP ═════════════════════════════════════ -->
+    <section class="sec t-paper" id="drop" data-scene="drop" data-name="Drop" data-idx="03">
+      <div class="sec__head" data-reveal-head>
+        <div class="sec__rule">
+          <span class="n">Sec. 03</span>
+          <span class="ln"></span>
+          <span class="k">放出 — The Drop</span>
+        </div>
+        <div class="sec__title">
+          <h2 class="sec__tt" data-split>The<em>Drop</em></h2>
+          <span class="sec__no" aria-hidden="true">03</span>
+          <p class="sec__meta">Chapter exclusives<br>Gone before you arrived</p>
+        </div>
       </div>
-      <div class="p-drop__grid">
-        <article class="product" data-product-card>
-          <div class="c-gyre" data-gyre>
-            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/tee.jpg" alt="Chapel Hill Chapter Tee, black with white handstyle print"></div>
-            <div class="c-gyre__arrow" data-size="M"><div></div></div>
-            <span class="product__sticker">SOLD<br>OUT</span>
-          </div>
+
+      <div class="drop__grid">
+        <article class="product" data-product>
+          <figure class="media" data-media data-cursor="Sold" data-shape="leaf" data-plate="flare" style="--frame-rot:1.3deg;--plate-x:12px;--plate-y:12px">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/products/tee.jpg" alt="Chapel Hill Chapter tee, black with white handstyle chest print" width="1000" height="1000">
+            </div>
+            <span class="stamp" data-stamp>Sold<br>Out</span>
+          </figure>
           <div class="product__info">
-            <h3><b>03-01</b>CHAPEL HILL CHAPTER TEE</h3>
-            <p class="spec">BLACK ★ HEAVYWEIGHT BOXY ★ HANDSTYLE CHEST PRINT</p>
-            <p class="price"><s>$48</s><em>GONE</em></p>
+            <span class="product__sku">03 — 01</span>
+            <h3 class="product__name">Chapel Hill Chapter Tee</h3>
+            <p class="product__spec">Black — heavyweight boxy — handstyle chest print</p>
+            <p class="product__price"><s>$48</s><em>Gone</em></p>
           </div>
         </article>
-        <article class="product" data-product-card>
-          <div class="c-gyre" data-gyre>
-            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/knit.jpg" alt="8-Ball Carolina Knit sweater"></div>
-            <div class="c-gyre__arrow" data-size="M"><div></div></div>
-            <span class="product__sticker">SOLD<br>OUT</span>
-          </div>
+
+        <article class="product" data-product>
+          <figure class="media" data-media data-cursor="Sold" data-shape="leaf" data-plate="navy" style="--frame-rot:-1.5deg;--plate-x:12px;--plate-y:12px">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/products/knit.jpg" alt="8-Ball Carolina knit sweater" width="1000" height="1000">
+            </div>
+            <span class="stamp stamp--navy" data-stamp>Sold<br>Out</span>
+          </figure>
           <div class="product__info">
-            <h3><b>03-02</b>8-BALL CAROLINA KNIT</h3>
-            <p class="spec">CAROLINA ★ CHUNKY JACQUARD ★ MOHAIR BLEND</p>
-            <p class="price"><s>$168</s><em>GONE</em></p>
+            <span class="product__sku">03 — 02</span>
+            <h3 class="product__name">8-Ball Carolina Knit</h3>
+            <p class="product__spec">Carolina — chunky jacquard — mohair blend</p>
+            <p class="product__price"><s>$168</s><em>Gone</em></p>
           </div>
         </article>
-        <article class="product" data-product-card>
-          <div class="c-gyre" data-gyre>
-            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/hat.jpg" alt="Franklin St bucket hat, navy with crown doodle"></div>
-            <div class="c-gyre__arrow" data-size="M"><div></div></div>
-            <span class="product__sticker">SOLD<br>OUT</span>
-          </div>
+
+        <article class="product" data-product>
+          <figure class="media" data-media data-cursor="Sold" data-shape="leaf" data-plate="gold" style="--frame-rot:1.1deg;--plate-x:12px;--plate-y:12px">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/products/hat.jpg" alt="Franklin Street bucket hat, navy with crown embroidery" width="1000" height="1000">
+            </div>
+            <span class="stamp stamp--ink" data-stamp>Sold<br>Out</span>
+          </figure>
           <div class="product__info">
-            <h3><b>03-03</b>FRANKLIN ST BUCKET HAT</h3>
-            <p class="spec">NAVY ★ CROWN DOODLE EMBROIDERY</p>
-            <p class="price"><s>$62</s><em>GONE</em></p>
+            <span class="product__sku">03 — 03</span>
+            <h3 class="product__name">Franklin St Bucket Hat</h3>
+            <p class="product__spec">Navy — crown doodle embroidery</p>
+            <p class="product__price"><s>$62</s><em>Gone</em></p>
           </div>
         </article>
-        <article class="product" data-product-card>
-          <div class="c-gyre" data-gyre>
-            <div class="c-gyre__inner"><img class="c-gyre__img" src="/assets/products/dice.jpg" alt="Chapter dice set, Carolina and white with pouch"></div>
-            <div class="c-gyre__arrow" data-size="M"><div></div></div>
-            <span class="product__sticker">SOLD<br>OUT</span>
-          </div>
+
+        <article class="product" data-product>
+          <figure class="media" data-media data-cursor="Sold" data-shape="leaf" data-plate="caro" style="--frame-rot:-1.2deg;--plate-x:12px;--plate-y:12px">
+            <div class="media__frame">
+              <img class="media__img" src="/assets/products/dice.jpg" alt="Chapter dice set in Carolina and white with canvas pouch" width="1000" height="1000">
+            </div>
+            <span class="stamp stamp--caro" data-stamp>Sold<br>Out</span>
+          </figure>
           <div class="product__info">
-            <h3><b>03-04</b>CHAPTER DICE SET</h3>
-            <p class="spec">CAROLINA / WHITE ★ CANVAS POUCH INCLUDED</p>
-            <p class="price"><s>$36</s><em>GONE</em></p>
+            <span class="product__sku">03 — 04</span>
+            <h3 class="product__name">Chapter Dice Set</h3>
+            <p class="product__spec">Carolina / white — canvas pouch included</p>
+            <p class="product__price"><s>$36</s><em>Gone</em></p>
           </div>
         </article>
       </div>
-      <p class="p-drop__note" data-inview>NEXT DROP: NEVER ★ RAFFLE CLOSED ★ DON'T ASK</p>
+
+      <p class="drop__note" data-reveal>Next drop: never <span>★</span> Raffle closed <span>★</span> Don’t ask</p>
     </section>
 
-    <!-- TRIBE -->
-    <section class="p-tribe p-section" id="tribe">
-      <div class="sec-head" data-inview-head>
-        <h2 class="sec-head__title"><span class="idx">SEC.04</span><span class="tt" data-split-letters>TRI<i>BE</i></span></h2>
-        <p class="sec-head__meta">INTERNATIONAL <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> TRIBE<br>CAROLINA CHAPTER</p>
+    <!-- ══ SEC 04 — TRIBE ════════════════════════════════════════ -->
+    <section class="sec t-carolina" id="tribe" data-scene="tribe" data-name="Tribe" data-idx="04">
+      <div class="sec__head" data-reveal-head>
+        <div class="sec__rule">
+          <span class="n">Sec. 04</span>
+          <span class="ln"></span>
+          <span class="k">仲間 — Tribe</span>
+        </div>
+        <div class="sec__title">
+          <h2 class="sec__tt" data-split>Tri<em>Be</em></h2>
+          <span class="sec__no" aria-hidden="true">04</span>
+          <p class="sec__meta">International Stüssy Tribe<br>Carolina Chapter</p>
+        </div>
       </div>
-      <div class="p-tribe__grid">
-        <a class="tribe-card" href="#store" data-nav-link>
-          <img class="tribe-card__env" src="/assets/lookbook/03_recordshop.jpg" alt="" aria-hidden="true">
-          <span class="tribe-card__idx">04-01</span>
-          <span class="tribe-card__ja">店舗</span>
-          <h3>THE<br>STORE</h3>
-          <p>Wood, mirrors, one tiki totem in a mortarboard.</p>
-          <span class="arrow"><div></div></span>
+
+      <div class="tribe__grid">
+        <a class="tribe-card" href="#store" data-nav data-tribe data-cursor="Go">
+          <img class="tribe-card__bg" src="/assets/lookbook/03_recordshop.jpg" alt="" aria-hidden="true" loading="lazy" width="1050" height="1400">
+          <span class="tribe-card__veil" aria-hidden="true"></span>
+          <span class="tribe-card__idx">04 — 01</span>
+          <span class="tribe-card__jp" aria-hidden="true">店舗</span>
+          <h3 class="tribe-card__ttl">The<br>Store</h3>
+          <p class="tribe-card__txt">Timber, mirrors, and one tiki totem in a mortarboard.</p>
+          <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"></use></svg></span>
         </a>
-        <a class="tribe-card" href="#lookbook" data-nav-link>
-          <img class="tribe-card__env" src="/assets/lookbook/04_court.jpg" alt="" aria-hidden="true">
-          <span class="tribe-card__idx">04-02</span>
-          <span class="tribe-card__ja">コート</span>
-          <h3>THE<br>COURT</h3>
-          <p>Argyle runs downhill to the rim. Dean Smith forever.</p>
-          <span class="arrow"><div></div></span>
+        <a class="tribe-card" href="#lookbook" data-nav data-tribe data-cursor="Go">
+          <img class="tribe-card__bg" src="/assets/lookbook/04_court.jpg" alt="" aria-hidden="true" loading="lazy" width="1050" height="1400">
+          <span class="tribe-card__veil" aria-hidden="true"></span>
+          <span class="tribe-card__idx">04 — 02</span>
+          <span class="tribe-card__jp" aria-hidden="true">コート</span>
+          <h3 class="tribe-card__ttl">The<br>Court</h3>
+          <p class="tribe-card__txt">Argyle runs downhill to the rim. Dean Smith forever.</p>
+          <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"></use></svg></span>
         </a>
-        <a class="tribe-card" href="#drop" data-nav-link>
-          <img class="tribe-card__env" src="/assets/lookbook/05_rooftop.jpg" alt="" aria-hidden="true">
-          <span class="tribe-card__idx">04-03</span>
-          <span class="tribe-card__ja">クルー</span>
-          <h3>THE<br>CREW</h3>
-          <p>IST — Carolina chapter. Tribe members get nothing.</p>
-          <span class="arrow"><div></div></span>
+        <a class="tribe-card" href="#drop" data-nav data-tribe data-cursor="Go">
+          <img class="tribe-card__bg" src="/assets/lookbook/05_rooftop.jpg" alt="" aria-hidden="true" loading="lazy" width="1050" height="1400">
+          <span class="tribe-card__veil" aria-hidden="true"></span>
+          <span class="tribe-card__idx">04 — 03</span>
+          <span class="tribe-card__jp" aria-hidden="true">クルー</span>
+          <h3 class="tribe-card__ttl">The<br>Crew</h3>
+          <p class="tribe-card__txt">IST, Carolina chapter. Tribe members get nothing.</p>
+          <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"></use></svg></span>
         </a>
-        <a class="tribe-card" href="#story" data-nav-link>
-          <img class="tribe-card__env" src="/assets/lookbook/06_franklin_night.jpg" alt="" aria-hidden="true">
-          <span class="tribe-card__idx">04-04</span>
-          <span class="tribe-card__ja">タウン</span>
-          <h3>THE<br>TOWN</h3>
-          <p>Franklin St. Records, coffee, basketball, repeat.</p>
-          <span class="arrow"><div></div></span>
+        <a class="tribe-card" href="#story" data-nav data-tribe data-cursor="Go">
+          <img class="tribe-card__bg" src="/assets/lookbook/06_franklin_night.jpg" alt="" aria-hidden="true" loading="lazy" width="1050" height="1400">
+          <span class="tribe-card__veil" aria-hidden="true"></span>
+          <span class="tribe-card__idx">04 — 04</span>
+          <span class="tribe-card__jp" aria-hidden="true">タウン</span>
+          <h3 class="tribe-card__ttl">The<br>Town</h3>
+          <p class="tribe-card__txt">Franklin Street. Records, coffee, basketball, repeat.</p>
+          <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"></use></svg></span>
         </a>
       </div>
     </section>
 
-    <!-- STORE -->
-    <section class="p-store p-section" id="store">
-      <div class="sec-head" data-inview-head>
-        <h2 class="sec-head__title"><span class="idx">SEC.05</span><span class="tt" data-split-letters>THE<i>STORE</i></span></h2>
-        <p class="sec-head__meta">VISIT ★ HOURS ★ CONTACT<br>NO PHONE. SEND A DOVE.</p>
-      </div>
-      <div class="p-store__grid">
-        <div class="store-col" data-store-col>
-          <h4>VISIT</h4>
-          <p>178 E FRANKLIN ST<br>CHAPEL HILL, NC 27516<br>2F — UPSTAIRS<br>FOLLOW THE 8-BALL</p>
-        </div>
-        <div class="store-col" data-store-col>
-          <h4>HOURS</h4>
-          <p>MON–SUN<br>11:00 — 20:00<br>GAMEDAYS: TIL THE W<br><s>MIDNIGHT MADNESS</s></p>
-        </div>
-        <div class="store-col" data-store-col>
-          <h4>CONTACT</h4>
-          <p>CHAPELHILL@STUSSY.COM<br>@STUSSYCHAPELHILL<br>CARRIER PIGEON OK</p>
-        </div>
-        <div class="store-ram" data-store-col>
-          <img src="/assets/doodles/ram.png" alt="Hand-drawn ram doodle" width="420" height="420" data-scrub-rotate>
-        </div>
-      </div>
-    </section>
-
-    <!-- MARQUEE 3 -->
-    <div class="c-marquee" data-type="gold" data-marquee aria-hidden="true">
-      <div class="c-marquee__inner">
-        <div class="marquee-set">
-          <div class="marquee-single">
-            <p class="bold" data-underline>GO HEELS</p><span class="arrow"><div></div></span>
-            <p class="normal">GDTBATH</p><span class="arrow"><div></div></span>
-            <p class="bold" data-underline>CHAPEL THRILL</p><span class="arrow"><div></div></span>
-            <p class="normal">8-BALL NEVER LIES</p><span class="arrow"><div></div></span>
-          </div>
+    <!-- ══ BAND 03 ═══════════════════════════════════════════════ -->
+    <div class="band band--navy" data-band style="--rot:-1.6deg" aria-hidden="true">
+      <div class="band__row" data-band-row data-speed="0.86">
+        <div class="band__set" data-band-set>
+          <b>Go Heels</b><span class="dot"></span>
+          <em>GDTBATH</em><span class="dot"></span>
+          <b>Chapel Thrill</b><span class="dot"></span>
+          <em>8-Ball Never Lies</em><span class="dot"></span>
         </div>
       </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="p-footer">
-      <div class="p-footer__gradbar" aria-hidden="true"></div>
-      <div class="p-footer__word" aria-hidden="true">
-        <img class="foot-logo" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill" width="735" height="506">
-        <span class="foot-block" data-split-letters>CHAPEL HILL</span>
-      </div>
-      <div class="p-footer__cols">
-        <div class="foot-col">
-          <h5>CHAPTER</h5>
-          <a href="#story" data-nav-link data-underline>STORY</a>
-          <a href="#lookbook" data-nav-link data-underline>LOOKBOOK</a>
-          <a href="#drop" data-nav-link data-underline>THE DROP</a>
+    <!-- ══ SEC 05 — THE STORE ════════════════════════════════════ -->
+    <section class="sec t-ink" id="store" data-scene="store" data-name="Store" data-idx="05">
+      <div class="sec__head" data-reveal-head>
+        <div class="sec__rule">
+          <span class="n">Sec. 05</span>
+          <span class="ln"></span>
+          <span class="k">店 — The Store</span>
         </div>
-        <div class="foot-col">
-          <h5>TRIBE</h5>
-          <a href="#tribe" data-nav-link data-underline>COMMUNITY</a>
-          <a href="#store" data-nav-link data-underline>STORE</a>
-          <a href="#top" data-nav-link data-underline>BACK TO TOP</a>
-        </div>
-        <div class="foot-col">
-          <h5>ELSEWHERE</h5>
-          <span>INSTAGRAM — @STUSSYCHAPELHILL</span>
-          <span>MAIL — CHAPELHILL@STUSSY.COM</span>
-          <span>PIGEON — COOP 8, FRANKLIN ST</span>
+        <div class="sec__title">
+          <h2 class="sec__tt" data-split>The<em>Store</em></h2>
+          <span class="sec__no" aria-hidden="true">05</span>
+          <p class="sec__meta">Visit — Hours — Contact<br>No phone. Send a dove.</p>
         </div>
       </div>
-      <div class="p-footer__meta">
-        <p>© 2026 <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"></p>
-        <p class="disclaimer">INTERNATIONAL <img class="stussy-inline" src="/assets/trapwhip-script.png" alt="Trapwhip Chapel Hill"> TRIBE ★ WORLDWIDE<br>EVERYTHING IS SOLD OUT. FOREVER.</p>
-        <p>MADE WITH 💙 ON FRANKLIN ST</p>
+
+      <div class="store__grid">
+        <div class="store-col" data-store>
+          <h3>Visit</h3>
+          <p>178 E Franklin St<br>Chapel Hill, NC 27516<br>2F — upstairs<br>Follow the 8-ball</p>
+        </div>
+        <div class="store-col" data-store>
+          <h3>Hours</h3>
+          <p>Mon — Sun<br>11:00 — 20:00<br>Gamedays: til the W<br><s>Midnight Madness</s></p>
+        </div>
+        <div class="store-col" data-store>
+          <h3>Contact</h3>
+          <p>chapelhill@stussy.com<br>@stussychapelhill<br>Carrier pigeon OK</p>
+        </div>
+        <div class="store__ram" data-store>
+          <img src="/assets/marks/sheet.webp" alt="" width="768" height="1038" data-spin loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+    <footer class="footer t-ink">
+      <div class="footer__bar" aria-hidden="true"></div>
+      <div class="footer__inner">
+        <div class="footer__word" data-reveal-head>
+          <img src="/assets/trapwhip-script.png" alt="Stüssy Chapel Hill" width="735" height="506" loading="lazy">
+          <p class="big" data-split>Chapter No. 26</p>
+        </div>
+
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Chapter</h4>
+            <a href="#story" data-nav class="u-line">Story</a>
+            <a href="#lookbook" data-nav class="u-line">Lookbook</a>
+            <a href="#drop" data-nav class="u-line">The Drop</a>
+          </div>
+          <div class="footer__col">
+            <h4>Tribe</h4>
+            <a href="#tribe" data-nav class="u-line">Community</a>
+            <a href="#store" data-nav class="u-line">Store</a>
+            <a href="#hero" data-nav class="u-line">Back to top</a>
+          </div>
+          <div class="footer__col">
+            <h4>Elsewhere</h4>
+            <span>Instagram — @stussychapelhill</span>
+            <span>Mail — chapelhill@stussy.com</span>
+            <span>Pigeon — coop 8, Franklin St</span>
+          </div>
+        </div>
+
+        <div class="footer__meta">
+          <p>© 2026 <img class="mark-inline" src="/assets/trapwhip-script.png" alt="Stüssy Chapel Hill" loading="lazy"></p>
+          <p>International Stüssy Tribe — Worldwide<br>Everything is sold out. Forever.</p>
+          <p>Made on Franklin St</p>
+        </div>
       </div>
     </footer>
 
   </main>
 
-  <!-- TYPO FRONT LAYER (ZOCCON p-typo-front: flowing strip above content) -->
-  <div class="p-typo-front" id="typo-front" aria-hidden="true">
-    <div id="typo-front-strip"><canvas id="typo-front-canvas"></canvas></div>
-  </div>
-
-  <!-- PAGE TOP BUTTON -->
-  <button class="p-pagetop" id="pagetop" aria-label="Back to top"><span class="arrow -up"><div></div></span></button>
+  <button class="pagetop" id="pagetop" type="button" aria-label="Back to top">
+    <svg aria-hidden="true"><use href="#i-up"></use></svg>
+  </button>
 
 </body>
 </html>

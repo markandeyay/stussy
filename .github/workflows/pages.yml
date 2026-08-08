@@ -5,7 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Declaring `permissions` at all sets every unlisted scope to `none`,
+# so actions/checkout needs `contents: read` spelled out explicitly.
 permissions:
+  contents: read
   pages: write
   id-token: write
 
