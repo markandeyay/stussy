@@ -323,6 +323,82 @@
   will-change: transform;
 }
 
+/* ── MAIL ─────────────────────────────────────────────────────────
+   The mail line. A paper postcard wedged between the two ink fields:
+   copy on the left, the form on the right. Inputs are underlined data
+   lines, not boxes — the same printed-matter language as .facts. */
+.mail__grid {
+  display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(var(--s7), 5vw, var(--s10)); align-items: start;
+  padding-inline: var(--margin);
+}
+.mail__lede {
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: var(--t-lede); line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight); color: var(--navy);
+  margin-block-end: var(--s5);
+}
+.mail__body { font-size: var(--t-body); line-height: var(--lh-body); max-width: 44ch; }
+.mail__key {
+  margin-block-start: var(--s6); padding-block-start: var(--s4);
+  border-block-start: 1px solid var(--rule);
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  color: var(--on-surface-dim);
+}
+.req { color: var(--flare); font-weight: 700; }
+
+.mail__form { display: grid; gap: var(--s6); }
+.mail__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s6); }
+.field { display: grid; gap: var(--s3); align-content: start; }
+.field__label {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+}
+.field__input {
+  width: 100%; padding: var(--s2) 0 var(--s3);
+  background: transparent; border: 0; border-radius: 0;
+  border-block-end: 1.5px solid var(--on-surface-dim);
+  font-family: var(--f-mono); font-size: var(--t-small);
+  letter-spacing: var(--tr-normal); color: var(--on-surface);
+  transition: border-color var(--d2) var(--e-out);
+}
+.field__input:focus-visible { outline: none; border-color: var(--accent); }
+.field__input--area {
+  padding: var(--s4); resize: vertical; min-height: 8em; line-height: 1.7;
+  border: 1.5px solid var(--on-surface-dim);
+  /* the leaf cut from the media frames, quieted down for a form box */
+  border-radius: clamp(18px, 2.2vw, 34px) clamp(6px, 0.6vw, 10px);
+}
+.field.-bad .field__input { border-color: var(--flare); }
+.field__err {
+  display: none; font-family: var(--f-mono); font-size: var(--t-micro);
+  letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--flare);
+}
+.field.-bad .field__err { display: block; }
+
+.mail__foot { display: flex; align-items: center; gap: var(--s5); flex-wrap: wrap; }
+.mail__send {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  padding: 0.62em 1.5em; border: 1.5px solid var(--on-surface); border-radius: 50vw;
+  background: transparent; color: var(--on-surface); cursor: pointer;
+  font-family: var(--f-display); font-weight: 800; font-style: italic;
+  text-transform: uppercase; font-size: clamp(17px, 1.6vw, 24px);
+  letter-spacing: var(--tr-tight); line-height: 1;
+  transition: background-color var(--d2) var(--e-out), color var(--d2) var(--e-out),
+              transform var(--d2) var(--e-out);
+}
+.mail__send:hover, .mail__send:focus-visible { background: var(--on-surface); color: var(--surface); transform: translateY(-2px); }
+.mail__send:disabled { opacity: 0.45; cursor: default; transform: none; }
+.mail__send svg { width: 0.8em; height: 0.8em; stroke: currentColor; }
+.mail__status {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  color: var(--on-surface-dim);
+}
+.mail__status.-bad { color: var(--flare); }
+.mail__status.-ok { color: var(--carolina-lo); }
+
 /* ── FOOTER ───────────────────────────────────────────────────────── */
 .footer { position: relative; z-index: var(--z-content); background: var(--ink); color: var(--paper); overflow: clip; }
 .footer__bar { height: 4px; background: linear-gradient(90deg, var(--carolina), var(--gold) 45%, var(--flare) 72%, var(--navy)); }

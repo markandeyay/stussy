@@ -10,6 +10,7 @@ import { initMedia } from './fx/media'
 import { initCursor } from './fx/cursor'
 import { initChrome } from './fx/chrome'
 import { initReveals } from './reveals'
+import { initContact } from './contact'
 import { prepareScenes, heroIntro, initScenes, refreshScenes } from './scenes'
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -34,6 +35,7 @@ const boot = () => {
   initMedia()
   initCursor()
   initReveals()
+  initContact()
   initScenes()
 
   /* anchor nav: cover, jump, uncover */

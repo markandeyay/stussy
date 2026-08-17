@@ -108,6 +108,7 @@
       <a href="#drop"     data-nav data-navlink="drop"     class="u-line"><i>03</i>Drop</a>
       <a href="#tribe"    data-nav data-navlink="tribe"    class="u-line"><i>04</i>Tribe</a>
       <a href="#store"    data-nav data-navlink="store"    class="u-line"><i>05</i>Store</a>
+      <a href="#mail"     data-nav data-navlink="mail"     class="u-line"><i>06</i>Mail</a>
     </nav>
     <div class="header__meta">
       <span class="header__badge">Sold Out</span>
@@ -509,6 +510,70 @@
       </div>
     </section>
 
+    <!-- ══ SEC 06 — MAIL ═════════════════════════════════════════ -->
+    <section class="sec t-paper" id="mail" data-scene="mail" data-name="Mail" data-idx="06">
+      <div class="sec__head" data-reveal-head>
+        <div class="sec__rule">
+          <span class="n">Sec. 06</span>
+          <span class="ln"></span>
+          <span class="k">便り — Mail</span>
+        </div>
+        <div class="sec__title">
+          <h2 class="sec__tt" data-split>Send<em>Word</em></h2>
+          <span class="sec__no" aria-hidden="true">06</span>
+          <p class="sec__meta">Wire the chapter<br>Doves return in 2—3 days</p>
+        </div>
+      </div>
+
+      <div class="mail__grid">
+        <div class="mail__copy" data-reveal>
+          <p class="mail__lede">The pigeon coop is full. Use the form.</p>
+          <p class="mail__body">
+            Praise, gripes, trade offers, tips on where the next drop is hiding —
+            the chapter reads everything. Leave a name and a message; the rest is
+            up to you. The 8-ball answers what it wants to.
+          </p>
+          <p class="mail__key"><span class="req" aria-hidden="true">*</span> Required. Everything else is optional.</p>
+        </div>
+
+        <form class="mail__form" id="mail-form" novalidate>
+          <div class="mail__row" data-reveal>
+            <div class="field">
+              <label class="field__label" for="mail-name">Name <span class="req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="mail-name" name="name" type="text" autocomplete="name" required aria-required="true">
+              <span class="field__err" data-err>Tell us who's writing</span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="mail-email">Your email <span class="req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="mail-email" name="email" type="email" autocomplete="email" required aria-required="true">
+              <span class="field__err" data-err>Need a real address to write back</span>
+            </div>
+          </div>
+
+          <div class="mail__row" data-reveal>
+            <div class="field">
+              <label class="field__label" for="mail-phone">Phone</label>
+              <input class="field__input" id="mail-phone" name="phone" type="tel" autocomplete="tel">
+              <span class="field__err" data-err></span>
+            </div>
+          </div>
+
+          <div class="field" data-reveal>
+            <label class="field__label" for="mail-message">A message for us <span class="req" aria-hidden="true">*</span></label>
+            <textarea class="field__input field__input--area" id="mail-message" name="message" rows="5" required aria-required="true"></textarea>
+            <span class="field__err" data-err>The dove won't fly empty</span>
+          </div>
+
+          <div class="mail__foot" data-reveal>
+            <button class="mail__send" type="submit">
+              Send it<svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </button>
+            <p class="mail__status" id="mail-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <!-- ══ FOOTER ════════════════════════════════════════════════ -->
     <footer class="footer t-ink">
       <div class="footer__bar" aria-hidden="true"></div>
@@ -529,6 +594,7 @@
             <h4>Tribe</h4>
             <a href="#tribe" data-nav class="u-line">Community</a>
             <a href="#store" data-nav class="u-line">Store</a>
+            <a href="#mail" data-nav class="u-line">Send word</a>
             <a href="#hero" data-nav class="u-line">Back to top</a>
           </div>
           <div class="footer__col">

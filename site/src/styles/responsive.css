@@ -45,6 +45,8 @@
   .band { transform: rotate(var(--rot, -2deg)) scale(1.12); }
   .band em, .band b, .band .dot { font-size: clamp(26px, 8vw, 46px); }
 
+  .mail__grid { grid-template-columns: 1fr; gap: var(--s7); }
+
   .footer__cols { gap: var(--s7); }
   .footer__meta { flex-direction: column; }
 }
@@ -61,6 +63,7 @@
   .hero__eyebrow > :nth-child(n+3):nth-child(-n+6) { display: none; }
   .pagetop { right: var(--s4); bottom: var(--s4); width: 46px; height: 46px; }
   .tribe-card__txt { padding-inline-end: 3.4em; }
+  .mail__row { grid-template-columns: 1fr; }
 }
 
 /* ── REDUCED MOTION LAYOUT ────────────────────────────────────────
