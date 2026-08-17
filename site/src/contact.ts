@@ -10,7 +10,8 @@
    request — no CORS preflight, which Apps Script web apps can't answer.
    ═══════════════════════════════════════════════════════════════════ */
 
-const SCRIPT_URL = ''
+const SCRIPT_URL =
+  'https://script.google.com/macros/s/AKfycbxpGrmOhZHErxbWUq3MJv3kEhzirgmrvZ_GPM9uEFb43xDXUUD8QvX3JsG74jxZU5YQ/exec'
 
 /* good-enough address shape; the real validation is the reply bouncing */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

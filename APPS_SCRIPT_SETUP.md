@@ -1,5 +1,12 @@
 # Mail form — Google Apps Script setup
 
+> **Status: LIVE.** The `stussy-mail-line` project is deployed under
+> markandeyayalamanchi9@gmail.com and its URL is wired into
+> `site/src/contact.ts`. Messages go to both
+> markandeyayalamanchi9@gmail.com and williamkeffer2005@gmail.com.
+> The steps below are kept for reference (e.g. redeploying after a
+> script edit, or changing recipients).
+
 The "Send Word" form (Sec. 06 at the bottom of the site) is pure front-end.
 It POSTs the four fields — `name`, `email`, `phone`, `message` — to a Google
 Apps Script **web app**, which relays them to your inbox as an email. Until
@@ -11,13 +18,13 @@ Follow these steps once; it takes about five minutes.
 ## 1. Create the script
 
 1. Go to <https://script.google.com> (signed in as the Google account that
-   should **send/receive** the mail, e.g. `markandeyayalamanchi9@gmail.com`).
+   should **send** the mail, e.g. `markandeyayalamanchi9@gmail.com`).
 2. Click **New project**, name it something like `stussy-mail-line`.
 3. Replace the contents of `Code.gs` with:
 
 ```javascript
-// Where the messages land. Change if you want a different inbox.
-const RECIPIENT = 'markandeyayalamanchi9@gmail.com'
+// Where the messages land. Comma-separated for multiple inboxes.
+const RECIPIENT = 'markandeyayalamanchi9@gmail.com,williamkeffer2005@gmail.com'
 
 function doPost(e) {
   const p = (e && e.parameter) || {}
